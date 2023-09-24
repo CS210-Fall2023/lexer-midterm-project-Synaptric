@@ -5,7 +5,7 @@ int main()
 {
     const char *File;
     const char *accssesMode;
-    char mystring;
+    int mystring;
 
     File = "files/hello_world.ccx";
     accssesMode = "r";
@@ -16,21 +16,19 @@ int main()
     {
         printf("file can't be opened \n");
     }
-    
-
-    do {
-    
-    mystring =fgetc(fptr);
 
 
-    printf("%c",mystring);
+    while ((mystring = fgetc(fptr))!= EOF)
+    {
 
-    }while(mystring != EOF);
+        printf("%c", mystring);
+    }
 
+    fclose(fptr);
 
-    
+    printf("\n\n");
 
-     fclose(fptr);
+    getcomments(File);
 
     return 0;
 }
