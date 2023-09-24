@@ -17,8 +17,7 @@ int main()
         printf("file can't be opened \n");
     }
 
-
-    while ((mystring = fgetc(fptr))!= EOF)
+    while ((mystring = fgetc(fptr)) != EOF)
     {
 
         printf("%c", mystring);
@@ -29,6 +28,10 @@ int main()
     printf("\n\n");
 
     getcomments(File);
+
+    FILE *Ofile;
+
+    lexit(Ofile);
 
     return 0;
 }
