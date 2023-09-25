@@ -48,7 +48,7 @@ void getcomments(const char *file)
             }
         }
 
-        //Same program but used to create string literals I will need to alter this to be its own function 
+        // Same program but used to create string literals I will need to alter this to be its own function
         else if (testChar == '\'') // statement used to sperate strings into their own lines.
         {
             fprintf(Ofile, "\n");
@@ -146,58 +146,6 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                 {
 
                     fprintf(Zfptr, "(keyword)");
-                    if ((Ktest = fgetc(Ofptr)) != '\n')
-                    {
-                        fprintf(Zfptr, "\n");
-                        ungetc(Ktest, Ofptr);
-                    }
-                    else
-                    {
-                        ungetc(Ktest, Ofptr);
-                    }
-                }
-                // // If true then print the string or something like that
-            }
-        }
-
-        else
-        {
-            strcpy(word, "");
-        }
-    }
-}
-
-void lexitOp(const char *Ofile) // accepts the file being worked on
-{
-    FILE *Ofptr = fopen(Ofile, "r+");
-    FILE *Zfptr = fopen("test3.txt", "w");
-
-    // Make a string and allocated up to ten memory locations for it.
-    // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
-    char word[50];
-    char Ktest;
-    char Keywords[37][10] = {};
-
-    int isKeyword = -5;
-
-    while ((Ktest = fgetc(Ofptr)) != EOF)
-    {
-        fprintf(Zfptr, "%c", Ktest);
-        if (Ktest > 96 && Ktest < 123)
-        {
-
-            // if true then add it to the string
-
-            strncat(word, &Ktest, 1);
-
-            for (int i = 0; i < 37; i++)
-            {
-                isKeyword = strcmp(word, Keywords[i]); // Compare the new string with every string in the Keywords
-
-                if (isKeyword == 0)
-                {
-
-                    fprintf(Zfptr, "(Operator)");
                     if ((Ktest = fgetc(Ofptr)) != '\n')
                     {
                         fprintf(Zfptr, "\n");
