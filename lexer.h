@@ -5,12 +5,11 @@
 #include <string.h>
 #include <stdio.h>
 
-void getcomments(const char *file); 
+void getcomments(const char *file);
 
-void lexit(FILE *Ofptr);
+void lexitKey(const char *Ofile);
+void getComment(int testChar,FILE *fptr,const char *Ofile);
 
-
-
-
+void lexitOp(const char *Ofile);
 
 #endif

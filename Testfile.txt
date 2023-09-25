@@ -1,6 +1,6 @@
 /*
  *Hello world with args.
- */
+ */(comment)
 procedure
 main(argc:
 integer;

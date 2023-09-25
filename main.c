@@ -7,7 +7,7 @@ int main()
     const char *accssesMode;
     int mystring;
 
-    File = "files/hello_world.ccx";
+    File = "files/hello_world.ccx"; //Test file for the program 
     accssesMode = "r";
 
     FILE *fptr = fopen(File, accssesMode);
@@ -25,13 +25,12 @@ int main()
 
     fclose(fptr);
 
-    printf("\n\n");
 
     getcomments(File);
 
-    FILE *Ofile;
+  const char *Ofile ="Testfile.txt";
 
-    lexit(Ofile);
+    lexitKey(Ofile);
 
     return 0;
 }
