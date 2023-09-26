@@ -111,6 +111,7 @@ void getcomments(const char *file)
 
 
 */
+
 void lexitKey(const char *Ofile) // accepts the file being worked on
 {
     FILE *Ofptr = fopen(Ofile, "r+");
@@ -144,16 +145,41 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
 
                 if (isKeyword == 0)
                 {
-
-                    fprintf(Zfptr, "(keyword)");
-                    if ((Ktest = fgetc(Ofptr)) != '\n')
+                    isKeyword = strcmp(word, "in");
+                    if (isKeyword == 0)
                     {
-                        fprintf(Zfptr, "\n");
-                        ungetc(Ktest, Ofptr);
+
+                        if ((Ktest = fgetc(Ofptr)) == 't')
+                        {
+                            ungetc(Ktest, Ofptr);
+                        }
+                        else
+                        {
+                            fprintf(Zfptr, "(keyword)");
+                            if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
+                            {
+                                fprintf(Zfptr, "\n");
+                                ungetc(Ktest, Ofptr);
+                            }
+                            else
+                            {
+                                ungetc(Ktest, Ofptr);
+                            }
+                        }
                     }
                     else
                     {
-                        ungetc(Ktest, Ofptr);
+
+                        fprintf(Zfptr, "(keyword)");
+                        if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
+                        {
+                            fprintf(Zfptr, "\n");
+                            ungetc(Ktest, Ofptr);
+                        }
+                        else
+                        {
+                            ungetc(Ktest, Ofptr);
+                        }
                     }
                 }
                 // // If true then print the string or something like that

@@ -3,8 +3,7 @@
  */(comment)
 procedure(keyword)
 main(argc:
-in(keyword)
-teger(keyword)
+integer(keyword)
 ;
 argv:
 string_vector_type(keyword)
