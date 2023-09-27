@@ -35,6 +35,7 @@ int main(int argc,char *argv[])
         printf("file can't be opened \n");
     }
 
+
     while ((mystring = fgetc(fptr)) != EOF)
     {
 
@@ -46,7 +47,7 @@ int main(int argc,char *argv[])
 
     getcomments(File);
 
-  const char *Ofile ="Testfile.txt";
+ // const char *Ofile ="Testfile.txt";
 
     lexitOp(File);
 

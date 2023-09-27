@@ -12,4 +12,8 @@ void getComment(int testChar,FILE *fptr,const char *Ofile);
 
 void lexitOp(const char *Ofile);
 
+void skipComment(FILE *Sptr,char testChar,FILE *Optr);
+
+
+
 #endif

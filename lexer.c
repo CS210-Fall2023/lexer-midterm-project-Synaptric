@@ -215,6 +215,7 @@ void lexitOp(const char *Ofile)
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
         fprintf(Pfptr, "%c", Ktest);
+        skipComment(Ofptr,Ktest,Pfptr);
 
         for (int i = 0; i < 25; i++)
         {
@@ -271,7 +272,7 @@ void lexitOp(const char *Ofile)
                         ;
                     }
                 }
-                 else if (Ktest == ':')
+                else if (Ktest == ':')
                 {
 
                     if ((Ktest = fgetc(Ofptr)) == ':')
@@ -285,9 +286,7 @@ void lexitOp(const char *Ofile)
                     }
                 }
 
-
-
-                     else if (Ktest == '*')
+                else if (Ktest == '*')
                 {
 
                     if ((Ktest = fgetc(Ofptr)) == '*')
@@ -300,8 +299,8 @@ void lexitOp(const char *Ofile)
                         ;
                     }
                 }
-                
-                     else if (Ktest == '!')
+
+                else if (Ktest == '!')
                 {
 
                     if ((Ktest = fgetc(Ofptr)) == '=')
@@ -314,7 +313,7 @@ void lexitOp(const char *Ofile)
                         ;
                     }
                 }
-                     else if (Ktest == '=')
+                else if (Ktest == '=')
                 {
 
                     if ((Ktest = fgetc(Ofptr)) == '>')
@@ -334,5 +333,29 @@ void lexitOp(const char *Ofile)
                 }
             }
         }
+    }
+}
+
+void skipComment(FILE *Sptr, char testChar,FILE *Optr)
+{
+    if (testChar == '/')
+
+        testChar = getc(Sptr);
+
+    if (testChar == '*')
+    {
+
+        do
+        {
+            fprintf(Optr, "%c", testChar);
+
+            ;
+        } while (testChar != '*' || (testChar = getc(Sptr)) != '/' || testChar == EOF); // Code used to print out hte comments
+    }
+    else
+    {
+        fprintf(Optr, "%c", testChar);
+
+        ungetc(testChar, Sptr);
     }
 }
