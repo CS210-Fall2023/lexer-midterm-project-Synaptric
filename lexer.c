@@ -49,7 +49,7 @@ void getcomments(const char *file)
         }
 
         // Same program but used to create string literals I will need to alter this to be its own function
-        else if (testChar == '\'') // statement used to sperate strings into their own lines.
+        else if (testChar == '\'') // statement used to sperate string literals into their own lines.
         {
             fprintf(Ofile, "\n");
 
@@ -67,6 +67,8 @@ void getcomments(const char *file)
             fprintf(Ofile, "(string literal)");
             fprintf(Ofile, "\n");
         }
+
+        // Find strings
 
         else if (testChar == '"') // statement used to sperate strings  literals into their own lines.
         {
@@ -87,6 +89,8 @@ void getcomments(const char *file)
             fprintf(Ofile, "\n");
         }
 
+        // If it is is a space or new line charchter
+        // Add a new line to seperated things
         else if (testChar == delim || testChar == '\n')
         {
             fprintf(Ofile, "\n");
@@ -96,6 +100,8 @@ void getcomments(const char *file)
             }
             ungetc(testChar, fptr);
         }
+
+        // Else paste the charchter to the new file.
         else
         {
             fprintf(Ofile, "%c", testChar);
@@ -189,6 +195,144 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
         else
         {
             strcpy(word, "");
+        }
+    }
+}
+
+void lexitOp(const char *Ofile)
+{
+    FILE *Ofptr = fopen(Ofile, "r+");
+    FILE *Pfptr = fopen("test3.txt", "w");
+
+    // Make a string and allocated up to ten memory locations for it.
+    // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
+    char Ktest;
+    char *Opcodes[27] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":",
+                         "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
+
+    // int isKeyword = -5;
+
+    while ((Ktest = fgetc(Ofptr)) != EOF)
+    {
+        fprintf(Pfptr, "%c", Ktest);
+
+        for (int i = 0; i < 25; i++)
+        {
+            if (Ktest == *Opcodes[i])
+            {
+                if (Ktest == '<')
+                {
+                    if ((Ktest = fgetc(Ofptr)) == '<')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else if (Ktest == '>')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else if (Ktest == '=')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                }
+                else if (Ktest == '>')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == '>')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+
+                    else if (Ktest == '=')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+                else if (Ktest == '.')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == '.')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+                 else if (Ktest == ':')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == ':')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+
+
+
+                     else if (Ktest == '*')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == '*')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+                
+                     else if (Ktest == '!')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == '=')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+                     else if (Ktest == '=')
+                {
+
+                    if ((Ktest = fgetc(Ofptr)) == '>')
+                    {
+                        fprintf(Pfptr, "%c", Ktest);
+                        fprintf(Pfptr, "(opcode)\n");
+                    }
+                    else
+                    {
+                        ;
+                    }
+                }
+
+                else
+                {
+                    fprintf(Pfptr, "(opcode)\n");
+                }
+            }
         }
     }
 }
