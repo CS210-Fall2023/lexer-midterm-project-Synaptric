@@ -49,7 +49,8 @@ int main(int argc,char *argv[])
 
  // const char *Ofile ="Testfile.txt";
 
-    lexitOp(File);
+   lexitKey("Testfile.txt");
+    //lexitOp("Testfile.txt");
 
     free(File);
     return 0;

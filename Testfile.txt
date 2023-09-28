@@ -16,12 +16,14 @@ argc
 :=
 argc
 -
-1;
+1 (Numeric)
+;
 exit
 when
 (argc
 =
-0);
+0 (Numeric)
+);
 printf(
 "arg[%d]: %s\n"(string)
 ,

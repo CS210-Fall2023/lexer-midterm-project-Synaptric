@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 void getcomments(const char *file)
 {
 
     FILE *fptr;
     FILE *Ofile;
-    int testChar;
+    char testChar;
     char delim = ' ';
 
     fptr = fopen(file, "r");
@@ -104,7 +105,16 @@ void getcomments(const char *file)
         // Else paste the charchter to the new file.
         else
         {
-            fprintf(Ofile, "%c", testChar);
+            int Digtest = lexitDig(fptr,testChar,Ofile);
+            if(Digtest == 1)
+            {
+                 fprintf(Ofile, " (Numeric)\n");
+            }
+            else
+            {
+                 fprintf(Ofile, "%c", testChar);
+            }
+           
         }
     }
 
@@ -133,11 +143,25 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                              "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out",
                              "positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
 
-    int isKeyword = -5;
+    int isKeyword = -5; //To test if the word is a keyoerd or not 
+
+    //In order to find the keywords and the identifer 
+
+    //Build the word 
+    // Test if it is a keyword 
+
+    //If it is not a keyword 
+    // check if the next charchter is not letter
+    // If charchter is an underscore or digit keep going until it is not an underscore or a digit
+    
+    //print the charchter 
 
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
         fprintf(Zfptr, "%c", Ktest);
+        skipComment(Ofptr, Ktest, Zfptr);
+        skipString(Ofptr, Ktest, Zfptr);
+
         if (Ktest > 96 && Ktest < 123)
         {
 
@@ -162,13 +186,14 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         else
                         {
                             fprintf(Zfptr, "(keyword)");
-                            if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
+                            int Idenum =0;
+                            if ((Ktest = fgetc(Ofptr)) != '\n' || ' ') // If the keyword is not a
                             {
                                 fprintf(Zfptr, "\n");
                                 ungetc(Ktest, Ofptr);
                             }
                             else
-                            {
+                            {  
                                 ungetc(Ktest, Ofptr);
                             }
                         }
@@ -187,11 +212,13 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             ungetc(Ktest, Ofptr);
                         }
                     }
+                    
+                    
                 }
                 // // If true then print the string or something like that
             }
         }
-
+        // If it is not longer a letter clear the word
         else
         {
             strcpy(word, "");
@@ -215,7 +242,8 @@ void lexitOp(const char *Ofile)
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
         fprintf(Pfptr, "%c", Ktest);
-        skipComment(Ofptr,Ktest,Pfptr);
+        skipComment(Ofptr, Ktest, Pfptr);
+        skipString(Ofptr, Ktest, Pfptr);
 
         for (int i = 0; i < 25; i++)
         {
@@ -336,26 +364,124 @@ void lexitOp(const char *Ofile)
     }
 }
 
-void skipComment(FILE *Sptr, char testChar,FILE *Optr)
+void skipComment(FILE *Sptr, char testChar, FILE *Optr)
 {
     if (testChar == '/')
+    {
 
         testChar = getc(Sptr);
 
-    if (testChar == '*')
-    {
+        if (testChar == '*')
+        {
+            fprintf(Optr, "*");
 
-        do
+            do
+            {
+                testChar = getc(Sptr);
+                fprintf(Optr, "%c", testChar);
+
+            } while (((testChar != '*') || (testChar = getc(Sptr)) != '/')); // Code used to print out hte comments
+            fprintf(Optr, "/");
+            ungetc(testChar, Sptr);
+            testChar = getc(Sptr);
+        }
+        else
         {
             fprintf(Optr, "%c", testChar);
 
-            ;
-        } while (testChar != '*' || (testChar = getc(Sptr)) != '/' || testChar == EOF); // Code used to print out hte comments
+            ungetc(testChar, Sptr);
+        }
+    }
+}
+
+int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
+{
+    if (isdigit(Digchar))
+    {
+        while (isdigit(Digchar) || Digchar == '#' || Digchar == '.')
+        {
+            if (Digchar == '.')
+            {
+                if ((Digchar = getc(Iptr)) == '.')
+                    
+                {
+                    ungetc(Digchar, Iptr);
+                }
+                else
+                {
+                    ungetc(Digchar, Iptr);
+                    fprintf(Optr, "%c", Digchar);
+                }
+            }
+            else
+            {
+                fprintf(Optr, "%c", Digchar);
+            }
+           Digchar = fgetc(Iptr);
+        } 
+        fseek(Iptr, -1, SEEK_CUR);
+        return 1;
     }
     else
     {
-        fprintf(Optr, "%c", testChar);
-
-        ungetc(testChar, Sptr);
+        return 0;
     }
 }
+void skipString(FILE *Sptr, char testChar, FILE *Optr) // Used to try and skip strings when checking for things
+{
+    if (testChar == '"') // statement used to sperate strings
+    {
+
+        testChar = getc(Sptr); // Gets the next letter
+
+        while (testChar != '"')
+        {
+
+            fprintf(Optr, "%c", testChar); // prints it
+            testChar = getc(Sptr);         // gets next leter
+        }
+
+        fprintf(Optr, "%c", testChar); // prints final "
+    }
+}
+
+void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
+{
+    if (testChar == '\'') // statement used to sperate strings
+    {
+
+        testChar = getc(Sptr); // Gets the next letter
+
+        while (testChar != '\'')
+        {
+
+            fprintf(Optr, "%c", testChar); // prints it
+            testChar = getc(Sptr);         // gets next leter
+        }
+
+        fprintf(Optr, "%c", testChar); // prints final "
+    }
+}
+
+/*
+
+void skipAnser(FILE *Sptr, char testChar, FILE *Optr)
+{
+    // Only to be used by functions that look for  ( or  letters
+    if(testChar == '(')
+    {
+         char word[50];
+            char *Keywords[7] = {"string","comment","numeric","keyword","string literal","opcode","identifer" };
+
+        while((testChar = getc(Sptr)) != ')')
+        {
+            strncat(word, &testChar, 1);
+            for(int i=0; i<8; i++)
+            {
+
+            }
+        }
+    }
+    // Check if there is a (   if there is then check to see if the opcode letters follow them
+}
+*/

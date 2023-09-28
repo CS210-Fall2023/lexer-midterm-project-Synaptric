@@ -1,0 +1,61 @@
+/*
+ *ello world with args.
+ */(opcode)
+((opcode)
+comment)(opcode)
+
+procedure
+main((opcode)
+argc:integer;(opcode)
+
+argv:string_vector_type)(opcode)
+
+is
+begin
+printf((opcode)
+
+"Hello, world\n"((opcode)
+string)(opcode)
+
+)(opcode)
+;(opcode)
+
+loop
+argc
+:argc
+-(opcode)
+
+1 ((opcode)
+Numeric)(opcode)
+
+;(opcode)
+
+exit
+when
+((opcode)
+argc
+=0 ((opcode)
+Numeric)(opcode)
+
+)(opcode)
+;(opcode)
+
+printf((opcode)
+
+"arg[%d]: %s\n"((opcode)
+string)(opcode)
+
+,(opcode)
+
+argc,(opcode)
+
+argv[(opcode)
+argc](opcode)
+)(opcode)
+;(opcode)
+
+end
+loop;(opcode)
+
+end
+main;(opcode)
