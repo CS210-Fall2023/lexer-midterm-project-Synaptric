@@ -1,38 +1,55 @@
 /*
  *ello world with args.
- */(comment)
+ */(comment (identifer)
+)
 procedure(keyword)
-main(argc:
+main (identifer)
+(argc (identifer)
+:
 integer(keyword)
 ;
-argv:
-string_vector_type(keyword)
-)
+argv (identifer)
+:
+string_vector_type (identifer)
+
 is(keyword)
 begin(keyword)
-printf(
-"Hello, world\n"(string)
+printf (identifer)
+(
+"Hello, world\n"(string (identifer)
+)
 );
 loop(keyword)
-argc
+argc (identifer)
+
 :=
-argc
+argc (identifer)
+
 -
-1 (Numeric)
+1 (Numeric (identifer)
+)
 ;
 exit(keyword)
 when(keyword)
-(argc
+(argc (identifer)
+
 =
-0 (Numeric)
+0 (Numeric (identifer)
+)
 );
-printf(
-"arg[%d]: %s\n"(string)
+printf (identifer)
+(
+"arg[%d]: %s\n"(string (identifer)
+)
 ,
-argc,
-argv[argc]);
+argc (identifer)
+,
+argv (identifer)
+[argc (identifer)
+]);
 end(keyword)
 loop(keyword)
 ;
 end(keyword)
-main;
+main (identifer)
+;

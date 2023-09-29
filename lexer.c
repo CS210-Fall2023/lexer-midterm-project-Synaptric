@@ -105,16 +105,15 @@ void getcomments(const char *file)
         // Else paste the charchter to the new file.
         else
         {
-            int Digtest = lexitDig(fptr,testChar,Ofile);
-            if(Digtest == 1)
+            int Digtest = lexitDig(fptr, testChar, Ofile);
+            if (Digtest == 1)
             {
-                 fprintf(Ofile, " (Numeric)\n");
+                fprintf(Ofile, " (Numeric)\n");
             }
             else
             {
-                 fprintf(Ofile, "%c", testChar);
+                fprintf(Ofile, "%c", testChar);
             }
-           
         }
     }
 
@@ -143,27 +142,31 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                              "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out",
                              "positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
 
-    int isKeyword = -5; //To test if the word is a keyoerd or not 
+    int isKeyword = -5; // To test if the word is a keyoerd or not
 
-    //In order to find the keywords and the identifer 
+    // In order to find the keywords and the identifer
 
-    //Build the word 
-    // Test if it is a keyword 
+    // Build the word
+    //  Test if it is a keyword
 
-    //If it is not a keyword 
-    // check if the next charchter is not letter
-    // If charchter is an underscore or digit keep going until it is not an underscore or a digit
-    
-    //print the charchter 
+    // If it is not a keyword
+    //  check if the next charchter is not letter
+    //  If charchter is an underscore or digit keep going until it is not an underscore or a digit
+
+    // print the charchter
+
+    int keyValue = -1;
 
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
         fprintf(Zfptr, "%c", Ktest);
+        keyValue = -1;
         skipComment(Ofptr, Ktest, Zfptr);
         skipString(Ofptr, Ktest, Zfptr);
 
         if (Ktest > 96 && Ktest < 123)
         {
+            keyValue = 0;
 
             // if true then add it to the string
 
@@ -186,15 +189,17 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         else
                         {
                             fprintf(Zfptr, "(keyword)");
-                            int Idenum =0;
+                            keyValue = 1;
                             if ((Ktest = fgetc(Ofptr)) != '\n' || ' ') // If the keyword is not a
                             {
                                 fprintf(Zfptr, "\n");
                                 ungetc(Ktest, Ofptr);
+                                break;
                             }
                             else
-                            {  
+                            {
                                 ungetc(Ktest, Ofptr);
+                                break; // Break statements so it doesn't have to test the whole array evertime.
                             }
                         }
                     }
@@ -202,20 +207,46 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     {
 
                         fprintf(Zfptr, "(keyword)");
+                        keyValue = 1;
                         if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
                         {
                             fprintf(Zfptr, "\n");
                             ungetc(Ktest, Ofptr);
+                            break;
                         }
                         else
                         {
                             ungetc(Ktest, Ofptr);
+                            break;
                         }
                     }
-                    
-                    
                 }
                 // // If true then print the string or something like that
+            }
+            if (keyValue == 0)
+            {
+                if ((Ktest = fgetc(Ofptr)) < 97 || Ktest > 122)
+                {
+                    if (Ktest == '_' || isdigit(Ktest))
+                    {
+                        while (Ktest == '_' || isdigit(Ktest) || isalpha(Ktest))
+                        {
+                            fprintf(Zfptr, "%c", Ktest);
+                            Ktest = fgetc(Ofptr);
+                        }
+
+                        fprintf(Zfptr, " (identifer)\n");
+                    }
+                    else
+                    {
+                        fprintf(Zfptr, " (identifer)\n");
+                        fprintf(Zfptr, "%c", Ktest);
+                    }
+                }
+                else
+                {
+                    ungetc(Ktest, Ofptr);
+                }
             }
         }
         // If it is not longer a letter clear the word
@@ -403,7 +434,7 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
             if (Digchar == '.')
             {
                 if ((Digchar = getc(Iptr)) == '.')
-                    
+
                 {
                     ungetc(Digchar, Iptr);
                 }
@@ -417,8 +448,8 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
             {
                 fprintf(Optr, "%c", Digchar);
             }
-           Digchar = fgetc(Iptr);
-        } 
+            Digchar = fgetc(Iptr);
+        }
         fseek(Iptr, -1, SEEK_CUR);
         return 1;
     }
