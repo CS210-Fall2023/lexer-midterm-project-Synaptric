@@ -11,7 +11,7 @@ integer(keyword)
 argv (identifer)
 :
 string_vector_type (identifer)
-
+)
 is(keyword)
 begin(keyword)
 printf (identifer)
@@ -21,10 +21,8 @@ printf (identifer)
 );
 loop(keyword)
 argc (identifer)
-
 :=
 argc (identifer)
-
 -
 1 (Numeric (identifer)
 )
@@ -32,7 +30,6 @@ argc (identifer)
 exit(keyword)
 when(keyword)
 (argc (identifer)
-
 =
 0 (Numeric (identifer)
 )

@@ -235,11 +235,21 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             Ktest = fgetc(Ofptr);
                         }
 
-                        fprintf(Zfptr, " (identifer)\n");
+                        fprintf(Zfptr, " (identifer)");
+                        if(Ktest != '\n')
+                        {
+                            fprintf(Zfptr,"\n");
+                        }
+
+                        fprintf(Zfptr, "%c", Ktest);
                     }
                     else
                     {
-                        fprintf(Zfptr, " (identifer)\n");
+                        fprintf(Zfptr, " (identifer)");
+                          if(Ktest != '\n')
+                        {
+                            fprintf(Zfptr,"\n");
+                        }
                         fprintf(Zfptr, "%c", Ktest);
                     }
                 }
