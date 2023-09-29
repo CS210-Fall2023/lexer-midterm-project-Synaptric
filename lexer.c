@@ -130,7 +130,7 @@ void getcomments(const char *file)
 void lexitKey(const char *Ofile) // accepts the file being worked on
 {
     FILE *Ofptr = fopen(Ofile, "r+");
-    FILE *Zfptr = fopen("Testfile2.txt", "w"); 
+    FILE *Zfptr = fopen("Testfile2.txt", "w");
 
     // Make a string and allocated up to ten memory locations for it.
     // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
@@ -159,11 +159,11 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
 
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
-        fprintf(Zfptr, "%c", Ktest); 
-        keyValue = -1;   // Setting the key = -1  this is to test if it is an identifer 
+        fprintf(Zfptr, "%c", Ktest);
+        keyValue = -1; // Setting the key = -1  this is to test if it is an identifer
         skipComment(Ofptr, Ktest, Zfptr);
         skipString(Ofptr, Ktest, Zfptr);
-        skipAnser(Ofptr, Ktest, Zfptr);
+        int comfirm = skipAnser(Ofptr, Ktest, Zfptr);
 
         if (Ktest > 96 && Ktest < 123)
         {
@@ -265,7 +265,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
         {
             strcpy(word, "");
         }
-    } 
+    }
     fclose(Zfptr);
 }
 
@@ -274,17 +274,16 @@ void lexitOp(const char *Ofile)
     FILE *Ofptr = fopen(Ofile, "r");
     FILE *Pfptr = fopen("Testfile3.txt", "w");
 
-    //rewind(Ofptr);
+    // rewind(Ofptr);
 
     if (NULL == Ofptr)
     {
         printf("file can't be opened \n");
     }
 
-
     // Make a string and allocated up to ten memory locations for it.
     // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
-    int Ktest;
+    char Ktest;
     char *Opcodes[27] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":",
                          "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
 
@@ -292,10 +291,16 @@ void lexitOp(const char *Ofile)
     Ktest = fgetc(Ofptr);
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
+        int Comfirm = 0;
         fprintf(Pfptr, "%c", Ktest);
         skipComment(Ofptr, Ktest, Pfptr);
         skipString(Ofptr, Ktest, Pfptr);
-        skipAnser(Ofptr, Ktest, Pfptr);
+        Comfirm = skipAnser(Ofptr, Ktest, Pfptr);
+        if (Comfirm == 1)
+        {
+            Ktest = fgetc(Ofptr);
+            fprintf(Pfptr, "%c", Ktest);
+        }
 
         for (int i = 0; i < 25; i++)
         {
@@ -307,17 +312,17 @@ void lexitOp(const char *Ofile)
                     {
                         fprintf(Pfptr, "%c", Ktest);
 
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else if (Ktest == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else if (Ktest == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                 }
                 else if (Ktest == '>')
@@ -326,13 +331,13 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
 
                     else if (Ktest == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -345,7 +350,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '.')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -358,7 +363,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == ':')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -372,7 +377,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '*')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -386,7 +391,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -399,7 +404,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, "(opcode)\n");
+                        fprintf(Pfptr, " (opcode)");
                     }
                     else
                     {
@@ -409,8 +414,16 @@ void lexitOp(const char *Ofile)
 
                 else
                 {
-                    fprintf(Pfptr, "(opcode)\n");
+                    fprintf(Pfptr, " (opcode)");
                 }
+                
+                if((Ktest =fgetc(Ofptr)) != '\n')
+                {
+                    fprintf(Pfptr,"\n");
+                    ungetc(Ktest,Ofptr);
+                }
+
+                //Trying to clear the spacing issue
             }
         }
     }
@@ -425,6 +438,7 @@ void skipComment(FILE *Sptr, char testChar, FILE *Optr)
 
         if (testChar == '*')
         {
+            fprintf(Optr, "*");
 
             do
             {
@@ -432,13 +446,12 @@ void skipComment(FILE *Sptr, char testChar, FILE *Optr)
                 fprintf(Optr, "%c", testChar);
 
             } while (((testChar != '*') || (testChar = getc(Sptr)) != '/')); // Code used to print out hte comments
-            fprintf(Optr, "/"); //prints the final /
-            ungetc(testChar, Sptr);
-            testChar = getc(Sptr);
+
+            fprintf(Optr, "%c", testChar);
         }
         else
         {
-            fprintf(Optr, "%c", testChar); 
+            fprintf(Optr, "%c", testChar);
 
             ungetc(testChar, Sptr);
         }
@@ -514,7 +527,7 @@ void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
     }
 }
 
-void skipAnser(FILE *Sptr, char testChar, FILE *Optr)
+int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
 {
     char Tword[50];
     char *Keywords[7] = {"string", "comment", "numeric", "keyword", "char", "opcode", "identifer"};
@@ -544,22 +557,24 @@ void skipAnser(FILE *Sptr, char testChar, FILE *Optr)
                 }
                 fprintf(Optr, "%c", testChar);
                 testChar = getc(Sptr);
-                if(testChar != '\n')
+                if (testChar != '\n')
                 {
-                    fprintf(Optr,"\n");
+                    fprintf(Optr, "\n");
                 }
                 else
                 {
-                     fprintf(Optr, "%c", testChar);
-;
+                    fprintf(Optr, "%c", testChar);
+                    ;
                 }
                 isWord = 1;
+                
                 break;
             }
         }
         if (isWord == 0)
         {
             fseek(Sptr, back - 1, SEEK_CUR);
+        
         }
     }
     else
@@ -567,4 +582,5 @@ void skipAnser(FILE *Sptr, char testChar, FILE *Optr)
         ;
     }
     // Check if there is a (   if there is then check to see if the opcode letters follow them
+    return isWord;
 }
