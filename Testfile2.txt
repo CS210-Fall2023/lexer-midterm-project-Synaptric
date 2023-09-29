@@ -1,4 +1,4 @@
-/*
+/
  *ello world with args.
  */(comment)
 procedure(keyword)

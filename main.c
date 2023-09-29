@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
     getcomments(File);
 
     // const char *Ofile ="Testfile.txt";
-
     lexitKey("Testfile.txt");
-    //lexitOp("Testfile.txt");
+
+    //lexitOp("Testfile2.txt");
 
     free(File);
     return 0;
