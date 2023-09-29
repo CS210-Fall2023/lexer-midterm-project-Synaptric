@@ -65,7 +65,7 @@ void getcomments(const char *file)
             }
 
             fprintf(Ofile, "%c", testChar); // prints final "
-            fprintf(Ofile, "(string literal)");
+            fprintf(Ofile, "(char)");
             fprintf(Ofile, "\n");
         }
 
@@ -134,7 +134,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
 
     // Make a string and allocated up to ten memory locations for it.
     // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
-    char word[50];
+    char word[256];
     char Ktest;
     char Keywords[37][10] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant",
                              "else", "elsif", "end", "exit", "function"
@@ -163,6 +163,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
         keyValue = -1;
         skipComment(Ofptr, Ktest, Zfptr);
         skipString(Ofptr, Ktest, Zfptr);
+        skipAnser(Ofptr,Ktest,Zfptr);
 
         if (Ktest > 96 && Ktest < 123)
         {
@@ -236,9 +237,9 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         }
 
                         fprintf(Zfptr, " (identifer)");
-                        if(Ktest != '\n')
+                        if (Ktest != '\n')
                         {
-                            fprintf(Zfptr,"\n");
+                            fprintf(Zfptr, "\n");
                         }
 
                         fprintf(Zfptr, "%c", Ktest);
@@ -246,9 +247,9 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     else
                     {
                         fprintf(Zfptr, " (identifer)");
-                          if(Ktest != '\n')
+                        if (Ktest != '\n')
                         {
-                            fprintf(Zfptr,"\n");
+                            fprintf(Zfptr, "\n");
                         }
                         fprintf(Zfptr, "%c", Ktest);
                     }
@@ -285,6 +286,7 @@ void lexitOp(const char *Ofile)
         fprintf(Pfptr, "%c", Ktest);
         skipComment(Ofptr, Ktest, Pfptr);
         skipString(Ofptr, Ktest, Pfptr);
+        skipAnser(Ofptr,Ktest,Pfptr);
 
         for (int i = 0; i < 25; i++)
         {
@@ -504,25 +506,48 @@ void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
     }
 }
 
-/*
-
 void skipAnser(FILE *Sptr, char testChar, FILE *Optr)
 {
+    char Tword[50];
+    char *Keywords[7] = {"string", "comment", "numeric", "keyword", "char", "opcode", "identifer"};
+    int back = 0;
     // Only to be used by functions that look for  ( or  letters
-    if(testChar == '(')
-    {
-         char word[50];
-            char *Keywords[7] = {"string","comment","numeric","keyword","string literal","opcode","identifer" };
 
-        while((testChar = getc(Sptr)) != ')')
+    int isWord = 0;
+    if (testChar == '(' && isalpha(testChar = getc(Sptr)))
+    {
+
+        ungetc(testChar, Sptr);
+        while ((testChar = getc(Sptr)) != ')')
         {
-            strncat(word, &testChar, 1);
-            for(int i=0; i<8; i++)
+            strncat(Tword, &testChar, 1);
+            back--;
+        }
+        back--;
+        for (int i = 0; i < 8; i++)
+        {
+            if (strcmp(Tword, Keywords[i]))
             {
 
+                fseek(Sptr, back, SEEK_CUR);
+                while ((testChar = getc(Sptr)) != ')')
+                {
+                    fprintf(Optr, "%c", testChar);
+                }
+                fprintf(Optr, ")");
+                isWord = 1;
+                break;
             }
         }
+        if (isWord == 0)
+        {
+            fseek(Sptr, back - 1, SEEK_CUR);
+
+        }
+    }
+    else
+    {
+        ;
     }
     // Check if there is a (   if there is then check to see if the opcode letters follow them
 }
-*/
