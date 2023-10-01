@@ -416,14 +416,18 @@ void lexitOp(const char *Ofile)
                 {
                     fprintf(Pfptr, " (opcode)");
                 }
-                
-                if((Ktest =fgetc(Ofptr)) != '\n')
+
+                if ((Ktest = fgetc(Ofptr)) != '\n')
                 {
-                    fprintf(Pfptr,"\n");
-                    ungetc(Ktest,Ofptr);
+                    fprintf(Pfptr, "\n");
+                    ungetc(Ktest, Ofptr);
+                }
+                else
+                {
+                    fprintf(Pfptr, "%c", Ktest);
                 }
 
-                //Trying to clear the spacing issue
+                // Trying to clear the spacing issue
             }
         }
     }
@@ -567,14 +571,13 @@ int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
                     ;
                 }
                 isWord = 1;
-                
+
                 break;
             }
         }
         if (isWord == 0)
         {
             fseek(Sptr, back - 1, SEEK_CUR);
-        
         }
     }
     else
