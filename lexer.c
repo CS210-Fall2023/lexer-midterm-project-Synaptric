@@ -5,7 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
-void getcomments(const char *file)
+void getcomments(const char *file) // This functions  splits the  function into lines of a file, It also speperates
 {
 
     FILE *fptr;
@@ -24,6 +24,9 @@ void getcomments(const char *file)
 
     while ((testChar = getc(fptr)) != EOF)
     {
+        /*
+            This next section of the program will find comments and split them off from the main group keepign the whiespace.
+        */
 
         if (testChar == '/')
         {
@@ -103,10 +106,11 @@ void getcomments(const char *file)
         }
 
         // Else paste the charchter to the new file.
-        else
+
+        else // If it is not a comment
         {
-            int Digtest = lexitDig(fptr, testChar, Ofile);
-            if (Digtest == 1)
+            int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
+            if (Digtest == 1)                              // If it is a numeric print numeric.
             {
                 fprintf(Ofile, " (Numeric)\n");
             }
@@ -288,7 +292,6 @@ void lexitOp(const char *Ofile)
                          "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
 
     // int isKeyword = -5;
-    Ktest = fgetc(Ofptr);
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
         int Comfirm = 0;
@@ -435,27 +438,30 @@ void lexitOp(const char *Ofile)
 
 void skipComment(FILE *Sptr, char testChar, FILE *Optr)
 {
-    if (testChar == '/')
+
+    if (testChar == '/') // Checking if it is this 
     {
 
-        testChar = getc(Sptr);
+        testChar = getc(Sptr); //If it is a / get the next to charchter to check if it is the start of a comment 
 
         if (testChar == '*')
         {
-            fprintf(Optr, "*");
+            fprintf(Optr, "*");  //Start the comment  
 
             do
             {
-                testChar = getc(Sptr);
+                //Print the rest of the comment 
+                testChar = getc(Sptr); 
                 fprintf(Optr, "%c", testChar);
 
-            } while (((testChar != '*') || (testChar = getc(Sptr)) != '/')); // Code used to print out hte comments
+            } while (testChar  != '/'); // Code used to print out hte comments
 
-            fprintf(Optr, "%c", testChar);
+            //Aaron told me this is legal 
+
         }
         else
         {
-            fprintf(Optr, "%c", testChar);
+            fprintf(Optr, "%c", testChar); //
 
             ungetc(testChar, Sptr);
         }
@@ -568,7 +574,6 @@ int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
                 else
                 {
                     fprintf(Optr, "%c", testChar);
-                    ;
                 }
                 isWord = 1;
 

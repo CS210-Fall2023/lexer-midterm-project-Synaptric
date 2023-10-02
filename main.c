@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
             printf("\nargv[%d]: %s", i, argv[i]);
     }
 
-    char *File = calloc(strlen(argv[1]), sizeof(char)); // This is just for testing proupose to workon the logic of the file.
+     char *File = calloc(strlen(argv[1]+8), sizeof(char)); // This is just for testing proupose to workon the logic of the file.
     strcpy(File, argv[1]);
     const char *accssesMode;
     int mystring;
@@ -28,6 +28,10 @@ int main(int argc, char *argv[])
     accssesMode = "r";
 
     FILE *fptr = fopen(File, accssesMode);
+
+ char   *EndFile =  strcat(File,".lexer");
+    //FILE *EndPtr =fopen(File,"w");
+
 
     if (NULL == fptr)
     {
@@ -46,7 +50,6 @@ int main(int argc, char *argv[])
 
     // const char *Ofile ="Testfile.txt";
     lexitKey("Testfile.txt");
-
     lexitOp("Testfile2.txt");
 
     free(File);
