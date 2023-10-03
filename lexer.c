@@ -44,7 +44,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
                 } while (testChar != '*' || (testChar = getc(fptr)) != '/' || testChar == EOF); // Code used to print out hte comments
 
                 fprintf(Ofile, "%c", testChar); // prints final "
-                fprintf(Ofile, "(comment)");
+                fprintf(Ofile, " (comment)");
             }
             else
             {
@@ -68,7 +68,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
             }
 
             fprintf(Ofile, "%c", testChar); // prints final "
-            fprintf(Ofile, "(char)");
+            fprintf(Ofile, " (char)");
             fprintf(Ofile, "\n");
         }
 
@@ -89,7 +89,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
             }
 
             fprintf(Ofile, "%c", testChar); // prints final "
-            fprintf(Ofile, "(string)");
+            fprintf(Ofile, " (string)");
             fprintf(Ofile, "\n");
         }
 
@@ -193,7 +193,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         }
                         else
                         {
-                            fprintf(Zfptr, "(keyword)");
+                            fprintf(Zfptr, " (keyword)");
                             keyValue = 1;
                             if ((Ktest = fgetc(Ofptr)) != '\n' || ' ') // If the keyword is not a
                             {
@@ -211,7 +211,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     else
                     {
 
-                        fprintf(Zfptr, "(keyword)");
+                        fprintf(Zfptr, " (keyword)");
                         keyValue = 1;
                         if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
                         {
@@ -299,11 +299,11 @@ void lexitOp(const char *Ofile)
         skipComment(Ofptr, Ktest, Pfptr);
         skipString(Ofptr, Ktest, Pfptr);
         Comfirm = skipAnser(Ofptr, Ktest, Pfptr);
-        if (Comfirm == 1)
-        {
-            Ktest = fgetc(Ofptr);
-            fprintf(Pfptr, "%c", Ktest);
-        }
+
+        //      if (Comfirm == 1)
+        //    {
+        //    Ktest = fgetc(Ofptr);
+        //}
 
         for (int i = 0; i < 25; i++)
         {
@@ -370,7 +370,7 @@ void lexitOp(const char *Ofile)
                     }
                     else
                     {
-                        ;
+                        fprintf(Pfptr, " (opcode)");
                     }
                 }
 
@@ -411,8 +411,13 @@ void lexitOp(const char *Ofile)
                     }
                     else
                     {
-                        ;
+                        fprintf(Pfptr, " (opcode)");
                     }
+                }
+
+                else if(Ktest == ')')
+                {
+                    fprintf(Pfptr, " (opcode)");
                 }
 
                 else
@@ -420,10 +425,15 @@ void lexitOp(const char *Ofile)
                     fprintf(Pfptr, " (opcode)");
                 }
 
+                // These are used after the main program  this is best place to put it even thouhg
+
                 if ((Ktest = fgetc(Ofptr)) != '\n')
                 {
+                    if(Ktest !=EOF)
+                    {
                     fprintf(Pfptr, "\n");
                     ungetc(Ktest, Ofptr);
+                    }
                 }
                 else
                 {
@@ -536,66 +546,38 @@ void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
     }
 }
 
+/*
+
+
+*/
+
 int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
 {
-    char Tword[50];
-    strcpy(Tword, "");
 
-    char *Keywords[7] = {"string", "comment", "numeric", "keyword", "char", "opcode", "identifer"};
-    int back = 0;
     // Only to be used by functions that look for  ( or  letters
 
     int isWord = 0;
-    if (testChar == '(' && isalpha(testChar = getc(Sptr)))
+    if (testChar == ' ')
     {
-
-        ungetc(testChar, Sptr);
-        while ((testChar = getc(Sptr)) != ')')
+        testChar = getc(Sptr);
+        if (testChar == '(')
         {
-            strncat(Tword, &testChar, 1);
-            back--;
-            if (back < -8)
+            fprintf(Optr, "%c", testChar);
+            while ((testChar = getc(Sptr)) != '\n')
             {
-                back++;
-                break;
-            }
-        }
-
-        back--;
-        for (int i = 0; i < 8; i++)
-        {
-            if (strcmp(Tword, Keywords[i]))
-            {
-
-                fseek(Sptr, back, SEEK_CUR);
-                while ((testChar = getc(Sptr)) != ')')
-                {
-                    fprintf(Optr, "%c", testChar);
-                }
                 fprintf(Optr, "%c", testChar);
-                testChar = getc(Sptr);
-                if (testChar != '\n')
-                {
-                    fprintf(Optr, "\n");
-                }
-                else
-                {
-                    fprintf(Optr, "%c", testChar);
-                }
-                isWord = 1;
-
-                break;
             }
+            fprintf(Optr, "%c", testChar);
+            isWord = 1;
+            return isWord;
         }
-        if (isWord == 0)
+        else
         {
-            fseek(Sptr, back - 1, SEEK_CUR);
+            return 0;
         }
     }
     else
     {
-        ;
+        return 0;
     }
-    // Check if there is a (   if there is then check to see if the opcode letters follow them
-    return isWord;
 }

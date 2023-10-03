@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdbool.h>
+
 void getcomments(const char *file);
 
 void lexitKey(const char *Ofile);

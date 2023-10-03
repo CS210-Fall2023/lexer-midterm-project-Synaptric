@@ -1,6 +1,6 @@
 /*
  *Hello world with args.
- */(comment)
+ */ (comment)
 procedure
 main(argc:
 integer;
@@ -9,7 +9,7 @@ string_vector_type)
 is
 begin
 printf(
-"Hello, world\n"(string)
+"Hello, world\n" (string)
 );
 loop
 argc
@@ -25,7 +25,7 @@ when
 0 (Numeric)
 );
 printf(
-"arg[%d]: %s\n"(string)
+"arg[%d]: %s\n" (string)
 ,
 argc,
 argv[argc]);

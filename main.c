@@ -19,8 +19,11 @@ int main(int argc, char *argv[])
             printf("\nargv[%d]: %s", i, argv[i]);
     }
 
-    char *File = calloc(strlen(argv[1] + 8), sizeof(char)); // This is just for testing proupose to workon the logic of the file.
+    char *File = calloc(strlen(argv[1] + 8), sizeof(char));
+    // char *EndFile = calloc(strlen(argv[1] + 8), sizeof(char));
+
     strcpy(File, argv[1]);
+    // strcpy(EndFile, argv[1]);
     const char *accssesMode;
     int mystring;
 
@@ -29,7 +32,7 @@ int main(int argc, char *argv[])
 
     FILE *fptr = fopen(File, accssesMode);
 
-    //char *EndFile = strcat(File, ".lexer");
+    //    strcat(EndFile, ".lexer");
     // FILE *EndPtr =fopen(File,"w");
 
     if (NULL == fptr)
@@ -56,18 +59,23 @@ int main(int argc, char *argv[])
 }
 
 /*
-    How to actaulyl search and paste the machine
+    Program checks copies everyhting from one file into another file
+
+    The first file created will seperate comments,strings,charchter literals,and numerics  and create a second file
+
+    This second file will contain the () statements to identify the lexers
+
+    Then it will find keywords and lexers
+
+    Then it will create the final file  that highlets operators
 
 
-        Create a function to check if the area is a coment / string     check if string every time a new pass is made
+    the primary issue that I have right now is needing to skip over the  statemtns without rewriting thme
 
-        scan and check for symbols  and write them
 
-        then check keywords
+    I need to fix this method so that it doesn't skip things in parnetheses or make a method to avoid writing things in the panrethes.s
 
-        then check ints
 
-        then check the final
-
+    // I need to rewrite this as a series of Boolean values
 
 */
