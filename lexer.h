@@ -17,7 +17,7 @@ void lexitOp(const char *Ofile);
 int lexitDig(FILE *Iptr, char Digchar, FILE *Optr);
 int skipAnser(FILE *Sptr, char testChar, FILE *Optr);
 
-void skipComment(FILE *Sptr, char testChar, FILE *Optr);
+bool skipComment(FILE *Sptr, char testChar, FILE *Optr);
 void skipString(FILE *Sptr, char testChar, FILE *Optr);
 void skipStringLit(FILE *Sptr, char testChar, FILE *Optr);
 

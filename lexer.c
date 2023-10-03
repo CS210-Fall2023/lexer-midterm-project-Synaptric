@@ -296,7 +296,11 @@ void lexitOp(const char *Ofile)
     {
         int Comfirm = 0;
         fprintf(Pfptr, "%c", Ktest);
-        skipComment(Ofptr, Ktest, Pfptr);
+        if (skipComment(Ofptr, Ktest, Pfptr) == true)
+        {
+            Ktest = fgetc(Ofptr);
+            fprintf(Pfptr, "%c", Ktest);
+        }
         skipString(Ofptr, Ktest, Pfptr);
         Comfirm = skipAnser(Ofptr, Ktest, Pfptr);
 
@@ -415,7 +419,7 @@ void lexitOp(const char *Ofile)
                     }
                 }
 
-                else if(Ktest == ')')
+                else if (Ktest == ')')
                 {
                     fprintf(Pfptr, " (opcode)");
                 }
@@ -429,10 +433,11 @@ void lexitOp(const char *Ofile)
 
                 if ((Ktest = fgetc(Ofptr)) != '\n')
                 {
-                    if(Ktest !=EOF)
+                    if (Ktest != EOF)
                     {
-                    fprintf(Pfptr, "\n");
-                    ungetc(Ktest, Ofptr);
+                        fprintf(Pfptr, "\n");
+                        ungetc(Ktest, Ofptr);
+                        break;
                     }
                 }
                 else
@@ -446,7 +451,7 @@ void lexitOp(const char *Ofile)
     }
 }
 
-void skipComment(FILE *Sptr, char testChar, FILE *Optr)
+bool skipComment(FILE *Sptr, char testChar, FILE *Optr)
 {
 
     if (testChar == '/') // Checking if it is this
@@ -465,7 +470,7 @@ void skipComment(FILE *Sptr, char testChar, FILE *Optr)
                 fprintf(Optr, "%c", testChar);
 
             } while (testChar != '/'); // Code used to print out hte comments
-
+            return true;
             // Aaron told me this is legal
         }
         else
@@ -473,7 +478,12 @@ void skipComment(FILE *Sptr, char testChar, FILE *Optr)
             fprintf(Optr, "%c", testChar); //
 
             ungetc(testChar, Sptr);
+            return false;
         }
+    }
+    else
+    {
+        return false;
     }
 }
 

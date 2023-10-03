@@ -20,10 +20,10 @@ int main(int argc, char *argv[])
     }
 
     char *File = calloc(strlen(argv[1] + 8), sizeof(char));
-    // char *EndFile = calloc(strlen(argv[1] + 8), sizeof(char));
+     char *EndFile = calloc(strlen(argv[1] + 8), sizeof(char));
 
     strcpy(File, argv[1]);
-    // strcpy(EndFile, argv[1]);
+     strcpy(EndFile, argv[1]);
     const char *accssesMode;
     int mystring;
 
@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
     lexitOp("Testfile2.txt");
 
     free(File);
+    free(EndFile);
     return 0;
 }
 
