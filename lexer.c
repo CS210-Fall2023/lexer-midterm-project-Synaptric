@@ -363,7 +363,7 @@ void lexitOp(const char *Ofile)
                 else if (Ktest == ':')
                 {
 
-                    if ((Ktest = fgetc(Ofptr)) == ':')
+                    if ((Ktest = fgetc(Ofptr)) == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
                         fprintf(Pfptr, " (opcode)");
@@ -439,25 +439,24 @@ void lexitOp(const char *Ofile)
 void skipComment(FILE *Sptr, char testChar, FILE *Optr)
 {
 
-    if (testChar == '/') // Checking if it is this 
+    if (testChar == '/') // Checking if it is this
     {
 
-        testChar = getc(Sptr); //If it is a / get the next to charchter to check if it is the start of a comment 
+        testChar = getc(Sptr); // If it is a / get the next to charchter to check if it is the start of a comment
 
         if (testChar == '*')
         {
-            fprintf(Optr, "*");  //Start the comment  
+            fprintf(Optr, "*"); // Start the comment
 
             do
             {
-                //Print the rest of the comment 
-                testChar = getc(Sptr); 
+                // Print the rest of the comment
+                testChar = getc(Sptr);
                 fprintf(Optr, "%c", testChar);
 
-            } while (testChar  != '/'); // Code used to print out hte comments
+            } while (testChar != '/'); // Code used to print out hte comments
 
-            //Aaron told me this is legal 
-
+            // Aaron told me this is legal
         }
         else
         {
@@ -540,6 +539,8 @@ void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
 int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
 {
     char Tword[50];
+    strcpy(Tword, "");
+
     char *Keywords[7] = {"string", "comment", "numeric", "keyword", "char", "opcode", "identifer"};
     int back = 0;
     // Only to be used by functions that look for  ( or  letters
@@ -553,7 +554,13 @@ int skipAnser(FILE *Sptr, char testChar, FILE *Optr)
         {
             strncat(Tword, &testChar, 1);
             back--;
+            if (back < -8)
+            {
+                back++;
+                break;
+            }
         }
+
         back--;
         for (int i = 0; i < 8; i++)
         {
