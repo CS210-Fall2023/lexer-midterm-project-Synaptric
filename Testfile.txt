@@ -1,142 +1,59 @@
 module
-natural
-is
+widget
+interface
 /*
-     *Here we define that natural is actually just an
-     *unconstrained subtype of type ccx_native_unsigned.
+     * types
      */ (comment)
+type
+widget_type;
 subtype
-natural
+widget_width_type
 is
-ccx_native_unsigned;
-function
-
-"+" (string)
-(lhs,
-rhs:
-natural)
-return
 natural
-is
-begin
-return
-(lhs.val
-+
-rhs.val);
-end
-
-"+" (string)
+range
+12255 (numeric literal)
 ;
-function
-
-"-" (string)
-(lhs,
-rhs:
-natural)
-return
-natural
+subtype
+widget_height_type
 is
-begin
-return
-(lhs.val
--
-rhs.val);
-end
-
-"-" (string)
+natural
+range
+11128 (numeric literal)
 ;
-function
-
-"-" (string)
-(x:
-natural)
-return
-natural
-is
-begin
-return
-(-x.val);
-end
-
-"-" (string)
-;
-function
-
-"*" (string)
-(lhs,
-rhs:
-natural)
-return
-natural
-is
-begin
-return
-(lhs.val
-*
-rhs.val);
-end
-
-"*" (string)
-;
-function
-
-"/" (string)
-(lhs,
-rhs:
-natural)
-return
-natural
-is
-begin
-if
-(rhs.val
-=
-0 (numeric literal)
-)
-then
 /*
-             *Raise an exception... won't return from this.
-             */ (comment)
-rtl.raise_exception(E_DIVBYZERO);
-end
-if;
-return
-(lhs.val
-
-rhs.val);
-end
-
-"/" (string)
-;
+     * routines
+     */ (comment)
 function
-
-"mod" (string)
-(lhs,
+width(w:
+widget_type)
+return
+widget_width_type;
+accessor
+width(w:
+widget_type)
+return
+widget_width_type;
+function
+height(w:
+widget_type)
+return
+widget_height_type;
+accessor
+height(w:
+widget_type)
+return
+widget_height_type;
+function
+area(lhs:
+widget_type;
 rhs:
-natural)
+widget_type)
 return
-natural
-is
-begin
-if
-(rhs.val
-=
-0 (numeric literal)
-)
-then
-/*
-             *Raise an exception... won't return from this.
-             */ (comment)
-rtl.raise_exception(E_DIVBYZERO);
+widget_type;
+mutator
+merge(lhs:
+widget_type;
+rhs:
+widget_type);
 end
-if;
-return
-(lhs.val
-mod
-rhs.val);
-end
-
-"mod" (string)
-;
-end
-natural;
+widget;

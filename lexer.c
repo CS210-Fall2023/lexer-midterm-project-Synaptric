@@ -41,9 +41,9 @@ void getcomments(const char *file) // This functions  splits the  function into 
                     testChar = getc(fptr);
                     fprintf(Ofile, "%c", testChar);
 
-                } while (testChar != '*' || (testChar = getc(fptr)) != '/' || testChar == EOF); // Code used to print out hte comments
+                } while (testChar != '/' || testChar == EOF); // Code used to print out hte comments
 
-                fprintf(Ofile, "%c", testChar); // prints final "
+                // Aaron said that this was legal
                 fprintf(Ofile, " (comment)");
             }
             else
@@ -140,10 +140,10 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
     // Make a string and allocated up to ten memory locations for it.
     // Need to make sure that it doesn't start with a null terminator so I can add things to it and compare it with string cmpr.
     char word[256];
+    strcpy(word, "");
     char Ktest;
     char Keywords[37][10] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant",
-                             "else", "elsif", "end", "exit", "function"
-                                                             "if",
+                             "else", "elsif", "end", "exit", "function", "if",
                              "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out",
                              "positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
 
@@ -216,12 +216,16 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         keyValue = 1;
                         if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
                         {
+                            strcpy(word, "");
+
                             fprintf(Zfptr, "\n");
                             ungetc(Ktest, Ofptr);
                             break;
                         }
                         else
                         {
+                            strcpy(word, "");
+
                             ungetc(Ktest, Ofptr);
                             break;
                         }
@@ -247,6 +251,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             fprintf(Zfptr, "\n");
                         }
 
+                        strcpy(word, "");
                         fprintf(Zfptr, "%c", Ktest);
                     }
                     else
@@ -256,6 +261,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         {
                             fprintf(Zfptr, "\n");
                         }
+                        strcpy(word, "");
                         fprintf(Zfptr, "%c", Ktest);
                     }
                 }
@@ -497,6 +503,7 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
                 if ((Digchar = getc(Iptr)) == '.')
 
                 {
+
                     ungetc(Digchar, Iptr);
                 }
                 else

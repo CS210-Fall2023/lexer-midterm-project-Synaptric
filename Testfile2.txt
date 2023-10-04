@@ -1,186 +1,88 @@
-module (identifier)
-natural (identifier)
-is (identifier)
+module (keyword)
+widget (identifier)
+interface (keyword)
 /*
-     *Here we define that natural is actually just an
-     *unconstrained subtype of type ccx_native_unsigned.
+     * types
      */ (comment)
+type (keyword)
+widget_type (identifier)
+;
 subtype (keyword)
-natural (keyword)
+widget_width_type (identifier)
 is (keyword)
-ccx_native_unsigned (identifier)
+natural (keyword)
+range (keyword)
+12255 (numeric literal)
 ;
-function (identifier)
-
-"+" (string)
-(lhs (identifier)
-,
-rhs (identifier)
-:
-natural (keyword)
-)
-return (keyword)
-natural (keyword)
+subtype (keyword)
+widget_height_type (identifier)
 is (keyword)
-begin (keyword)
-return (keyword)
-(lhs (identifier)
-.val (identifier)
-+
-rhs (identifier)
-.val (identifier)
-);
-end (keyword)
-
-"+" (string)
+natural (keyword)
+range (keyword)
+11128 (numeric literal)
 ;
-function (identifier)
-
-"-" (string)
-(lhs (identifier)
-,
-rhs (identifier)
-:
-natural (keyword)
-)
-return (keyword)
-natural (keyword)
-is (keyword)
-begin (keyword)
-return (keyword)
-(lhs (identifier)
-.val (identifier)
--
-rhs (identifier)
-.val (identifier)
-);
-end (keyword)
-
-"-" (string)
-;
-function (identifier)
-
-"-" (string)
-(x (identifier)
-:
-natural (keyword)
-)
-return (keyword)
-natural (keyword)
-is (keyword)
-begin (keyword)
-return (keyword)
-(-x (identifier)
-.val (identifier)
-);
-end (keyword)
-
-"-" (string)
-;
-function (identifier)
-
-"*" (string)
-(lhs (identifier)
-,
-rhs (identifier)
-:
-natural (keyword)
-)
-return (keyword)
-natural (keyword)
-is (keyword)
-begin (keyword)
-return (keyword)
-(lhs (identifier)
-.val (identifier)
-*
-rhs (identifier)
-.val (identifier)
-);
-end (keyword)
-
-"*" (string)
-;
-function (identifier)
-
-"/" (string)
-(lhs (identifier)
-,
-rhs (identifier)
-:
-natural (keyword)
-)
-return (keyword)
-natural (keyword)
-is (keyword)
-begin (keyword)
-if (identifier)
-(rhs (identifier)
-.val (identifier)
-=
-0 (numeric literal)
-)
-then (keyword)
 /*
-             *Raise an exception... won't return from this.
-             */ (comment)
-rtl (identifier)
-.raise_exception (identifier)
-(E_DIVBYZERO);
-end (keyword)
-if (identifier)
-;
+     * routines
+     */ (comment)
+function (keyword)
+width (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
 return (keyword)
-(lhs (identifier)
-.val (identifier)
-
-rhs (identifier)
-.val (identifier)
-);
-end (keyword)
-
-"/" (string)
+widget_width_type (identifier)
 ;
-function (identifier)
-
-"mod" (string)
+accessor (keyword)
+width (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_width_type (identifier)
+;
+function (keyword)
+height (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_height_type (identifier)
+;
+accessor (keyword)
+height (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_height_type (identifier)
+;
+function (keyword)
+area (identifier)
 (lhs (identifier)
-,
+:
+widget_type (identifier)
+;
 rhs (identifier)
 :
-natural (keyword)
+widget_type (identifier)
 )
 return (keyword)
-natural (keyword)
-is (keyword)
-begin (keyword)
-if (identifier)
-(rhs (identifier)
-.val (identifier)
-=
-0 (numeric literal)
-)
-then (keyword)
-/*
-             *Raise an exception... won't return from this.
-             */ (comment)
-rtl (identifier)
-.raise_exception (identifier)
-(E_DIVBYZERO);
-end (keyword)
-if (identifier)
+widget_type (identifier)
 ;
-return (keyword)
+mutator (keyword)
+merge (identifier)
 (lhs (identifier)
-.val (identifier)
-mod (identifier)
+:
+widget_type (identifier)
+;
 rhs (identifier)
-.val (identifier)
+:
+widget_type (identifier)
 );
 end (keyword)
-
-"mod" (string)
-;
-end (keyword)
-natural (keyword)
+widget (identifier)
 ;
