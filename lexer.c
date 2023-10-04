@@ -115,6 +115,10 @@ void getcomments(const char *file) // This functions  splits the  function into 
             {
                 fprintf(Ofile, " (numeric literal)\n");
             }
+            else if (Digtest == -1)
+            {
+                fprintf(Ofile, " (numeric literal)\n");
+            }
             else
             {
                 fprintf(Ofile, "%c", testChar);
@@ -501,22 +505,23 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
             if (Digchar == '.')
             {
                 if ((Digchar = getc(Iptr)) == '.')
-
                 {
-
                     ungetc(Digchar, Iptr);
+                    ungetc(Digchar, Iptr);
+                    return -1;
                 }
                 else
                 {
                     ungetc(Digchar, Iptr);
                     fprintf(Optr, "%c", Digchar);
+                    Digchar = fgetc(Iptr);
                 }
             }
             else
             {
                 fprintf(Optr, "%c", Digchar);
+                Digchar = fgetc(Iptr);
             }
-            Digchar = fgetc(Iptr);
         }
         fseek(Iptr, -1, SEEK_CUR);
         return 1;
@@ -526,6 +531,7 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
         return 0;
     }
 }
+
 void skipString(FILE *Sptr, char testChar, FILE *Optr) // Used to try and skip strings when checking for things
 {
     if (testChar == '"') // statement used to sperate strings

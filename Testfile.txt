@@ -1,59 +1,182 @@
 module
 widget
-interface
-/*
-     * types
-     */ (comment)
+is
 type
-widget_type;
-subtype
+widget_type
+is
+struct
+wdth:
+widget_width_type;
+hght:
+widget_height_type;
+end
+struct;
+function
+width(w:
+widget_type)
+return
 widget_width_type
 is
-natural
-range
-12255 (numeric literal)
+begin
+if
+(w.wdth
+<
+16#40# (numeric literal)
+)
+then
+return
+w.wdth
+-
+5 (numeric literal)
 ;
-subtype
+end
+if;
+if
+(w.wdth
+<
+128 (numeric literal)
+)
+then
+return
+w.wdth
+-
+5 (numeric literal)
+;
+elsif
+(w.wdth
+<
+256 (numeric literal)
+)
+then
+return
+w.wdth
+-
+133 (numeric literal)
+;
+else
+return
+w.wdth
+-
+259 (numeric literal)
+;
+end
+if;
+end
+widget;
+function
+height(w:
+widget_type)
+return
 widget_height_type
 is
-natural
-range
-11128 (numeric literal)
+begin
+while
+(w.hght
+<
+100 (numeric literal)
+)
+loop
+w.hght
+:=
+w.hght
++
+1 (numeric literal)
 ;
-/*
-     * routines
-     */ (comment)
+end
+loop;
+return
+width(X);
+return
+X;
+end
+height;
 function
-width(w:
-widget_type)
-return
-widget_width_type;
-accessor
-width(w:
-widget_type)
-return
-widget_width_type;
-function
-height(w:
-widget_type)
-return
-widget_height_type;
-accessor
-height(w:
-widget_type)
-return
-widget_height_type;
-function
-area(lhs:
-widget_type;
-rhs:
-widget_type)
-return
-widget_type;
-mutator
 merge(lhs:
 widget_type;
 rhs:
-widget_type);
+widget_type)
+return
+widget_type
+is
+x:
+integer;
+y:
+integer;
+begin
+loop
+x
+:=
+x
++
+3 (numeric literal)
+;
+if
+(x
+>
+17 (numeric literal)
+)
+then
+exit;
+end
+if;
+x
+:=
+y[3 (numeric literal)
+];
+/* array indexing */ (comment)
+y
+:=
+x
++
+2 (numeric literal)
+;
+exit
+when
+(y
+>
+37 (numeric literal)
+);
+end
+loop;
+while
+(lhs.wdth
+!=
+0 (numeric literal)
+)
+loop
+case
+letter
+is
+when
+
+'x' (char)
+
+=>
+y
+:=
+23 (numeric literal)
+;
+when
+
+'q' (char)
+
+=>
+y
+:=
+91 (numeric literal)
+;
+when
+others
+=>
+y
+:=
+-1 (numeric literal)
+;
+end
+case;
+end
+loop;
+end
+merge;
 end
 widget;

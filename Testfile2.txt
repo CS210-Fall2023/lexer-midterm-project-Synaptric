@@ -1,29 +1,21 @@
 module (keyword)
 widget (identifier)
-interface (keyword)
-/*
-     * types
-     */ (comment)
+is (keyword)
 type (keyword)
 widget_type (identifier)
-;
-subtype (keyword)
+is (keyword)
+struct (keyword)
+wdth (identifier)
+:
 widget_width_type (identifier)
-is (keyword)
-natural (keyword)
-range (keyword)
-12255 (numeric literal)
 ;
-subtype (keyword)
+hght (identifier)
+:
 widget_height_type (identifier)
-is (keyword)
-natural (keyword)
-range (keyword)
-11128 (numeric literal)
 ;
-/*
-     * routines
-     */ (comment)
+end (keyword)
+struct (keyword)
+;
 function (keyword)
 width (identifier)
 (w (identifier)
@@ -32,15 +24,62 @@ widget_type (identifier)
 )
 return (keyword)
 widget_width_type (identifier)
-;
-accessor (keyword)
-width (identifier)
+is (keyword)
+begin (keyword)
+if (keyword)
 (w (identifier)
-:
-widget_type (identifier)
+.wdth (identifier)
+<
+16#40# (numeric literal)
 )
+then (keyword)
 return (keyword)
-widget_width_type (identifier)
+w (identifier)
+.wdth (identifier)
+-
+5 (numeric literal)
+;
+end (keyword)
+if (keyword)
+;
+if (keyword)
+(w (identifier)
+.wdth (identifier)
+<
+128 (numeric literal)
+)
+then (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+5 (numeric literal)
+;
+elsif (keyword)
+(w (identifier)
+.wdth (identifier)
+<
+256 (numeric literal)
+)
+then (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+133 (numeric literal)
+;
+else (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+259 (numeric literal)
+;
+end (keyword)
+if (keyword)
+;
+end (keyword)
+widget (identifier)
 ;
 function (keyword)
 height (identifier)
@@ -50,30 +89,35 @@ widget_type (identifier)
 )
 return (keyword)
 widget_height_type (identifier)
-;
-accessor (keyword)
-height (identifier)
+is (keyword)
+begin (keyword)
+while (keyword)
 (w (identifier)
-:
-widget_type (identifier)
+.hght (identifier)
+<
+100 (numeric literal)
 )
+loop (keyword)
+w (identifier)
+.hght (identifier)
+:=
+w (identifier)
+.hght (identifier)
++
+1 (numeric literal)
+;
+end (keyword)
+loop (keyword)
+;
 return (keyword)
-widget_height_type (identifier)
+width (identifier)
+(X);
+return (keyword)
+X;
+end (keyword)
+height (identifier)
 ;
 function (keyword)
-area (identifier)
-(lhs (identifier)
-:
-widget_type (identifier)
-;
-rhs (identifier)
-:
-widget_type (identifier)
-)
-return (keyword)
-widget_type (identifier)
-;
-mutator (keyword)
 merge (identifier)
 (lhs (identifier)
 :
@@ -82,7 +126,105 @@ widget_type (identifier)
 rhs (identifier)
 :
 widget_type (identifier)
+)
+return (keyword)
+widget_type (identifier)
+is (keyword)
+x (identifier)
+:
+integer (keyword)
+;
+y (identifier)
+:
+integer (keyword)
+;
+begin (keyword)
+loop (keyword)
+x (identifier)
+:=
+x (identifier)
++
+3 (numeric literal)
+;
+if (keyword)
+(x (identifier)
+>
+17 (numeric literal)
+)
+then (keyword)
+exit (keyword)
+;
+end (keyword)
+if (keyword)
+;
+x (identifier)
+:=
+y (identifier)
+[3 (numeric literal)
+];
+/* array indexing */ (comment)
+y (identifier)
+:=
+x (identifier)
++
+2 (numeric literal)
+;
+exit (keyword)
+when (keyword)
+(y (identifier)
+>
+37 (numeric literal)
 );
+end (keyword)
+loop (keyword)
+;
+while (keyword)
+(lhs (identifier)
+.wdth (identifier)
+!=
+0 (numeric literal)
+)
+loop (keyword)
+case (keyword)
+letter (identifier)
+is (keyword)
+when (keyword)
+
+'x (identifier)
+' (char)
+
+=>
+y (identifier)
+:=
+23 (numeric literal)
+;
+when (keyword)
+
+'q (identifier)
+' (char)
+
+=>
+y (identifier)
+:=
+91 (numeric literal)
+;
+when (keyword)
+other (keyword)
+s (identifier)
+=>
+y (identifier)
+:=
+-1 (numeric literal)
+;
+end (keyword)
+case (keyword)
+;
+end (keyword)
+loop (keyword)
+;
+end (keyword)
+merge (identifier)
+;
 end (keyword)
 widget (identifier)
 ;
