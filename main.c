@@ -19,11 +19,15 @@ int main(int argc, char *argv[])
             printf("\nargv[%d]: %s", i, argv[i]);
     }
 
-    char *File = calloc(strlen(argv[1] + 8), sizeof(char));
-     char *EndFile = calloc(strlen(argv[1] + 8), sizeof(char));
+    char *File = calloc(strlen(argv[1]), sizeof(char));
+
+    char *EndFile = calloc(strlen(argv[1])+8, sizeof(char));
 
     strcpy(File, argv[1]);
-     strcpy(EndFile, argv[1]);
+
+    strcat(EndFile, File); //
+    strcat(EndFile, ".lexer");
+
     const char *accssesMode;
     int mystring;
 
@@ -32,7 +36,6 @@ int main(int argc, char *argv[])
 
     FILE *fptr = fopen(File, accssesMode);
 
-    //    strcat(EndFile, ".lexer");
     // FILE *EndPtr =fopen(File,"w");
 
     if (NULL == fptr)
@@ -52,9 +55,10 @@ int main(int argc, char *argv[])
 
     // const char *Ofile ="Testfile.txt";
     lexitKey("Testfile.txt");
-    lexitOp("Testfile2.txt");
+    lexitOp("Testfile2.txt",EndFile);
 
     free(File);
+
     free(EndFile);
     return 0;
 }

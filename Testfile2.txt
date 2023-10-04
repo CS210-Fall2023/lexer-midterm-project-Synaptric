@@ -1,47 +1,186 @@
+module (identifier)
+natural (identifier)
+is (identifier)
 /*
- *Hello world with args.
- */ (comment)
-procedure (keyword)
-main (identifer)
-(argc (identifer)
-:
-integer (keyword)
+     *Here we define that natural is actually just an
+     *unconstrained subtype of type ccx_native_unsigned.
+     */ (comment)
+subtype (keyword)
+natural (keyword)
+is (keyword)
+ccx_native_unsigned (identifier)
 ;
-argv (identifer)
+function (identifier)
+
+"+" (string)
+(lhs (identifier)
+,
+rhs (identifier)
 :
-string_vector_type (identifer)
+natural (keyword)
 )
+return (keyword)
+natural (keyword)
 is (keyword)
 begin (keyword)
-printf (identifer)
-(
-"Hello, world\n" (string)
+return (keyword)
+(lhs (identifier)
+.val (identifier)
++
+rhs (identifier)
+.val (identifier)
 );
-loop (keyword)
-argc (identifer)
-:=
-argc (identifer)
+end (keyword)
+
+"+" (string)
+;
+function (identifier)
+
+"-" (string)
+(lhs (identifier)
+,
+rhs (identifier)
+:
+natural (keyword)
+)
+return (keyword)
+natural (keyword)
+is (keyword)
+begin (keyword)
+return (keyword)
+(lhs (identifier)
+.val (identifier)
 -
-1 (Numeric)
-;
-exit (keyword)
-when (keyword)
-(argc (identifer)
-=
-0 (Numeric)
+rhs (identifier)
+.val (identifier)
 );
-printf (identifer)
-(
-"arg[%d]: %s\n" (string)
-,
-argc (identifer)
-,
-argv (identifer)
-[argc (identifer)
-]);
 end (keyword)
-loop (keyword)
+
+"-" (string)
+;
+function (identifier)
+
+"-" (string)
+(x (identifier)
+:
+natural (keyword)
+)
+return (keyword)
+natural (keyword)
+is (keyword)
+begin (keyword)
+return (keyword)
+(-x (identifier)
+.val (identifier)
+);
+end (keyword)
+
+"-" (string)
+;
+function (identifier)
+
+"*" (string)
+(lhs (identifier)
+,
+rhs (identifier)
+:
+natural (keyword)
+)
+return (keyword)
+natural (keyword)
+is (keyword)
+begin (keyword)
+return (keyword)
+(lhs (identifier)
+.val (identifier)
+*
+rhs (identifier)
+.val (identifier)
+);
+end (keyword)
+
+"*" (string)
+;
+function (identifier)
+
+"/" (string)
+(lhs (identifier)
+,
+rhs (identifier)
+:
+natural (keyword)
+)
+return (keyword)
+natural (keyword)
+is (keyword)
+begin (keyword)
+if (identifier)
+(rhs (identifier)
+.val (identifier)
+=
+0 (numeric literal)
+)
+then (keyword)
+/*
+             *Raise an exception... won't return from this.
+             */ (comment)
+rtl (identifier)
+.raise_exception (identifier)
+(E_DIVBYZERO);
+end (keyword)
+if (identifier)
+;
+return (keyword)
+(lhs (identifier)
+.val (identifier)
+
+rhs (identifier)
+.val (identifier)
+);
+end (keyword)
+
+"/" (string)
+;
+function (identifier)
+
+"mod" (string)
+(lhs (identifier)
+,
+rhs (identifier)
+:
+natural (keyword)
+)
+return (keyword)
+natural (keyword)
+is (keyword)
+begin (keyword)
+if (identifier)
+(rhs (identifier)
+.val (identifier)
+=
+0 (numeric literal)
+)
+then (keyword)
+/*
+             *Raise an exception... won't return from this.
+             */ (comment)
+rtl (identifier)
+.raise_exception (identifier)
+(E_DIVBYZERO);
+end (keyword)
+if (identifier)
+;
+return (keyword)
+(lhs (identifier)
+.val (identifier)
+mod (identifier)
+rhs (identifier)
+.val (identifier)
+);
+end (keyword)
+
+"mod" (string)
 ;
 end (keyword)
-main (identifer)
+natural (keyword)
 ;

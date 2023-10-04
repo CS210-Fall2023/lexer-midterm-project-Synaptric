@@ -109,10 +109,11 @@ void getcomments(const char *file) // This functions  splits the  function into 
 
         else // If it is not a comment
         {
+
             int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
             if (Digtest == 1)                              // If it is a numeric print numeric.
             {
-                fprintf(Ofile, " (Numeric)\n");
+                fprintf(Ofile, " (numeric literal)\n");
             }
             else
             {
@@ -240,7 +241,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             Ktest = fgetc(Ofptr);
                         }
 
-                        fprintf(Zfptr, " (identifer)");
+                        fprintf(Zfptr, " (identifier)");
                         if (Ktest != '\n')
                         {
                             fprintf(Zfptr, "\n");
@@ -250,7 +251,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     }
                     else
                     {
-                        fprintf(Zfptr, " (identifer)");
+                        fprintf(Zfptr, " (identifier)");
                         if (Ktest != '\n')
                         {
                             fprintf(Zfptr, "\n");
@@ -273,10 +274,10 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
     fclose(Zfptr);
 }
 
-void lexitOp(const char *Ofile)
+void lexitOp(const char *Ofile, char *EndFile)
 {
     FILE *Ofptr = fopen(Ofile, "r");
-    FILE *Pfptr = fopen("Testfile3.txt", "w");
+    FILE *Pfptr = fopen(EndFile, "w");
 
     // rewind(Ofptr);
 
@@ -319,17 +320,17 @@ void lexitOp(const char *Ofile)
                     {
                         fprintf(Pfptr, "%c", Ktest);
 
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else if (Ktest == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else if (Ktest == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
                 else if (Ktest == '>')
@@ -338,17 +339,17 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
 
                     else if (Ktest == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
-                        ;
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
                 else if (Ktest == '.')
@@ -357,11 +358,11 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '.')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
-                        ;
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
                 else if (Ktest == ':')
@@ -370,11 +371,11 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
 
@@ -384,7 +385,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '*')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
@@ -398,7 +399,7 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '=')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
@@ -411,34 +412,32 @@ void lexitOp(const char *Ofile)
                     if ((Ktest = fgetc(Ofptr)) == '>')
                     {
                         fprintf(Pfptr, "%c", Ktest);
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                     else
                     {
-                        fprintf(Pfptr, " (opcode)");
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
 
                 else if (Ktest == ')')
                 {
-                    fprintf(Pfptr, " (opcode)");
+                    fprintf(Pfptr, " (operator)");
                 }
 
                 else
                 {
-                    fprintf(Pfptr, " (opcode)");
+                    fprintf(Pfptr, " (operator)");
                 }
 
                 // These are used after the main program  this is best place to put it even thouhg
 
                 if ((Ktest = fgetc(Ofptr)) != '\n')
                 {
-                    if (Ktest != EOF)
-                    {
-                        fprintf(Pfptr, "\n");
-                        ungetc(Ktest, Ofptr);
-                        break;
-                    }
+
+                    fprintf(Pfptr, "\n");
+                    ungetc(Ktest, Ofptr);
+                    break;
                 }
                 else
                 {
