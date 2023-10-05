@@ -22,24 +22,21 @@ void getcomments(const char *file) // This functions  splits the  function into 
         printf("file can't be opened \n");
     }
 
-
-    //Code used to elimate whitespace at the start of the program
+    // Code used to elimate whitespace at the start of the program
     testChar = getc(fptr);
-    if(testChar =='\n')
+    if (testChar == '\n')
     {
-        while((testChar = getc(fptr)) == '\n')
+        while ((testChar = getc(fptr)) == '\n')
         {
-
         }
-        ungetc(testChar,fptr);
+        ungetc(testChar, fptr);
     }
     else
     {
-        ungetc(testChar,fptr);
+        ungetc(testChar, fptr);
     }
 
-
-    //Main program
+    // Main program
 
     while ((testChar = getc(fptr)) != EOF)
     {
@@ -64,12 +61,22 @@ void getcomments(const char *file) // This functions  splits the  function into 
 
                 // Aaron said that this was legal
                 fprintf(Ofile, " (comment)");
+
+                if ((testChar = fgetc(fptr)) != '\n')
+                {
+
+                    fprintf(Ofile, "\n");
+                    ungetc(testChar, fptr);
+                }
+                else
+                {
+                    ungetc(testChar, fptr);
+                }
             }
             else
             {
                 fprintf(Ofile, "/");
-                ungetc(testChar,fptr);
-
+                ungetc(testChar, fptr);
             }
         }
 
@@ -88,6 +95,17 @@ void getcomments(const char *file) // This functions  splits the  function into 
 
             fprintf(Ofile, "%c", testChar); // prints final "
             fprintf(Ofile, " (character literal)");
+
+            if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+            {
+
+                fprintf(Ofile, "\n");
+                ungetc(testChar, fptr);
+            }
+            else
+            {
+                ungetc(testChar, fptr);
+            }
         }
 
         // Find strings
@@ -107,35 +125,113 @@ void getcomments(const char *file) // This functions  splits the  function into 
 
             fprintf(Ofile, "%c", testChar); // prints final "
             fprintf(Ofile, " (string)");
-            fprintf(Ofile, "\n");
+            if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+            {
+
+                fprintf(Ofile, "\n");
+                ungetc(testChar, fptr);
+            }
+            else
+            {
+                ungetc(testChar, fptr);
+            }
         }
 
         // If it is is a space or new line charchter
         // Add a new line to seperated things
-        else if (testChar == delim || testChar == '\n')
-        {
-            
-            fprintf(Ofile, "\n");
-            while ((testChar = getc(fptr)) == delim || testChar == '\n')
-            {
-                ;
-            }
-            ungetc(testChar, fptr);
-        }
-
         // Else paste the charchter to the new file.
+
+        // The issue that I am having is that I need to
 
         else // If it is not a comment
         {
-            
-            int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
-            if (Digtest == 1)                              // If it is a numeric print numeric.
+
+            // check to makesure that the previous information is not an alphanumeric charhcter or _
+            if ((!isalnum(testChar)) && testChar != '_')
             {
-                fprintf(Ofile, " (numeric literal)\n");
-            }
-            else if (Digtest == -1)
-            {
-                fprintf(Ofile, " (numeric literal)\n");
+                if (testChar == delim || testChar == '\n')
+                {
+
+                    fprintf(Ofile, "\n");
+                    while ((testChar = getc(fptr)) == delim || testChar == '\n')
+                    {
+                        ;
+                    }
+
+                    int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
+                    if (Digtest == 1)                              // If it is a numeric print numeric.
+                    {
+                        fprintf(Ofile, " (numeric literal)");
+                        if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+                        {
+
+                            fprintf(Ofile, "\n");
+                            ungetc(testChar, fptr);
+                        }
+                        else
+                        {
+                            ungetc(testChar, fptr);
+                        }
+                    }
+                    else if (Digtest == -1)
+                    {
+                        fprintf(Ofile, " (numeric literal)");
+                        if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+                        {
+
+                            fprintf(Ofile, "\n");
+                            ungetc(testChar, fptr);
+                        }
+                        else
+                        {
+                            ungetc(testChar, fptr);
+                        }
+                    }
+
+                    else
+                    {
+                        ungetc(testChar, fptr);
+                    }
+                }
+
+                else
+                {
+                    fprintf(Ofile, "%c", testChar);
+                    testChar = getc(fptr);
+                    int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
+                    if (Digtest == 1)                              // If it is a numeric print numeric.
+                    {
+                        fprintf(Ofile, " (numeric literal)");
+                        if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+                        {
+
+                            fprintf(Ofile, "\n");
+                            ungetc(testChar, fptr);
+                        }
+                        else
+                        {
+                            ungetc(testChar, fptr);
+                        }
+                    }
+                    else if (Digtest == -1)
+                    {
+                        fprintf(Ofile, " (numeric literal)");
+                        if ((testChar = fgetc(fptr)) != '\n' && testChar != ' ')
+                        {
+
+                            fprintf(Ofile, "\n");
+                            ungetc(testChar, fptr);
+                        }
+                        else
+                        {
+                            ungetc(testChar, fptr);
+                        }
+                    }
+                    else
+                    {
+                        ungetc(testChar, fptr);
+                    }
+                }
             }
             else
             {
@@ -523,7 +619,7 @@ bool skipComment(FILE *Sptr, char testChar, FILE *Optr)
         }
         else
         {
-             //
+            //
             ungetc(testChar, Sptr);
             return false;
         }
