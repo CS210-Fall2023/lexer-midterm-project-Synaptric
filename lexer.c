@@ -55,8 +55,6 @@ void getcomments(const char *file) // This functions  splits the  function into 
         // Same program but used to create string literals I will need to alter this to be its own function
         else if (testChar == '\'') // statement used to sperate string literals into their own lines.
         {
-            fprintf(Ofile, "\n");
-
             fprintf(Ofile, "%c", testChar); // prints the first "
             testChar = getc(fptr);          // Gets the next letter
 
@@ -68,15 +66,13 @@ void getcomments(const char *file) // This functions  splits the  function into 
             }
 
             fprintf(Ofile, "%c", testChar); // prints final "
-            fprintf(Ofile, " (charcter literal)");
-            fprintf(Ofile, "\n");
+            fprintf(Ofile, " (character literal)");
         }
 
         // Find strings
 
         else if (testChar == '"') // statement used to sperate strings  literals into their own lines.
         {
-            fprintf(Ofile, "\n");
 
             fprintf(Ofile, "%c", testChar); // prints the first "
             testChar = getc(fptr);          // Gets the next letter
@@ -172,9 +168,10 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
         keyValue = -1; // Setting the key = -1  this is to test if it is an identifer
         skipComment(Ofptr, Ktest, Zfptr);
         skipString(Ofptr, Ktest, Zfptr);
-       skipAnser(Ofptr, Ktest, Zfptr);
+        skipStringLit(Ofptr, Ktest, Zfptr);
+        skipAnser(Ofptr, Ktest, Zfptr);
 
-        if (Ktest > 96 && Ktest < 123)
+        if (isalpha(Ktest))
         {
             keyValue = 0;
 
@@ -192,7 +189,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     if (isKeyword == 0)
                     {
 
-                        if ((Ktest = fgetc(Ofptr)) == '\n' || Ktest ==  ' ')
+                        if ((Ktest = fgetc(Ofptr)) == '\n' || Ktest == ' ')
 
                         {
                             fprintf(Zfptr, " (keyword)");
@@ -200,6 +197,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             if ((Ktest = fgetc(Ofptr)) != '\n' || ' ') // If the keyword is not a
                             {
                                 fprintf(Zfptr, "\n");
+                                strcpy(word, "");
                                 ungetc(Ktest, Ofptr);
                                 break;
                             }
@@ -214,7 +212,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         else
                         {
                             ungetc(Ktest, Ofptr);
-                            keyValue=8;
+                            keyValue = 8;
                             break;
                         }
                     }
@@ -309,7 +307,6 @@ void lexitOp(const char *Ofile, char *EndFile)
     // int isKeyword = -5;
     while ((Ktest = fgetc(Ofptr)) != EOF)
     {
-        int Comfirm = 0;
         fprintf(Pfptr, "%c", Ktest);
         if (skipComment(Ofptr, Ktest, Pfptr) == true)
         {
@@ -317,7 +314,8 @@ void lexitOp(const char *Ofile, char *EndFile)
             fprintf(Pfptr, "%c", Ktest);
         }
         skipString(Ofptr, Ktest, Pfptr);
-        Comfirm = skipAnser(Ofptr, Ktest, Pfptr);
+        skipStringLit(Ofptr, Ktest, Pfptr);
+      skipAnser(Ofptr, Ktest, Pfptr);
 
         //      if (Comfirm == 1)
         //    {

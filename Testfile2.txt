@@ -111,9 +111,11 @@ loop (keyword)
 ;
 return (keyword)
 width (identifier)
-(X);
+(X (identifier)
+);
 return (keyword)
-X;
+X (identifier)
+;
 end (keyword)
 height (identifier)
 ;
@@ -189,20 +191,14 @@ case (keyword)
 letter (identifier)
 is (keyword)
 when (keyword)
-
-'x (identifier)
-' (charcter literal)
-
+'x' (character literal)
 =>
 y (identifier)
 :=
 23 (numeric literal)
 ;
 when (keyword)
-
-'q (identifier)
-' (charcter literal)
-
+'q' (character literal)
 =>
 y (identifier)
 :=

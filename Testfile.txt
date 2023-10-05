@@ -148,18 +148,14 @@ case
 letter
 is
 when
-
-'x' (charcter literal)
-
+'x' (character literal)
 =>
 y
 :=
 23 (numeric literal)
 ;
 when
-
-'q' (charcter literal)
-
+'q' (character literal)
 =>
 y
 :=
