@@ -149,7 +149,7 @@ letter
 is
 when
 
-'x' (char)
+'x' (charcter literal)
 
 =>
 y
@@ -158,7 +158,7 @@ y
 ;
 when
 
-'q' (char)
+'q' (charcter literal)
 
 =>
 y

@@ -191,7 +191,7 @@ is (keyword)
 when (keyword)
 
 'x (identifier)
-' (char)
+' (charcter literal)
 
 =>
 y (identifier)
@@ -201,7 +201,7 @@ y (identifier)
 when (keyword)
 
 'q (identifier)
-' (char)
+' (charcter literal)
 
 =>
 y (identifier)

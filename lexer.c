@@ -68,7 +68,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
             }
 
             fprintf(Ofile, "%c", testChar); // prints final "
-            fprintf(Ofile, " (char)");
+            fprintf(Ofile, " (charcter literal)");
             fprintf(Ofile, "\n");
         }
 
@@ -172,7 +172,7 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
         keyValue = -1; // Setting the key = -1  this is to test if it is an identifer
         skipComment(Ofptr, Ktest, Zfptr);
         skipString(Ofptr, Ktest, Zfptr);
-        int comfirm = skipAnser(Ofptr, Ktest, Zfptr);
+       skipAnser(Ofptr, Ktest, Zfptr);
 
         if (Ktest > 96 && Ktest < 123)
         {
@@ -192,11 +192,8 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                     if (isKeyword == 0)
                     {
 
-                        if ((Ktest = fgetc(Ofptr)) == 't')
-                        {
-                            ungetc(Ktest, Ofptr);
-                        }
-                        else
+                        if ((Ktest = fgetc(Ofptr)) == '\n' || Ktest ==  ' ')
+
                         {
                             fprintf(Zfptr, " (keyword)");
                             keyValue = 1;
@@ -208,9 +205,17 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             }
                             else
                             {
+                                strcpy(word, "");
                                 ungetc(Ktest, Ofptr);
                                 break; // Break statements so it doesn't have to test the whole array evertime.
                             }
+                        }
+
+                        else
+                        {
+                            ungetc(Ktest, Ofptr);
+                            keyValue=8;
+                            break;
                         }
                     }
                     else
@@ -229,7 +234,6 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                         else
                         {
                             strcpy(word, "");
-
                             ungetc(Ktest, Ofptr);
                             break;
                         }
@@ -342,6 +346,10 @@ void lexitOp(const char *Ofile, char *EndFile)
                         fprintf(Pfptr, "%c", Ktest);
                         fprintf(Pfptr, " (operator)");
                     }
+                    else
+                    {
+                        fprintf(Pfptr, " (operator)");
+                    }
                 }
                 else if (Ktest == '>')
                 {
@@ -372,6 +380,7 @@ void lexitOp(const char *Ofile, char *EndFile)
                     }
                     else
                     {
+                        ungetc(Ktest, Ofptr);
                         fprintf(Pfptr, " (operator)");
                     }
                 }
