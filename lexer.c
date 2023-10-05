@@ -22,6 +22,25 @@ void getcomments(const char *file) // This functions  splits the  function into 
         printf("file can't be opened \n");
     }
 
+
+    //Code used to elimate whitespace at the start of the program
+    testChar = getc(fptr);
+    if(testChar =='\n')
+    {
+        while((testChar = getc(fptr)) == '\n')
+        {
+
+        }
+        ungetc(testChar,fptr);
+    }
+    else
+    {
+        ungetc(testChar,fptr);
+    }
+
+
+    //Main program
+
     while ((testChar = getc(fptr)) != EOF)
     {
         /*
@@ -48,7 +67,9 @@ void getcomments(const char *file) // This functions  splits the  function into 
             }
             else
             {
-                ungetc(testChar, fptr);
+                fprintf(Ofile, "/");
+                ungetc(testChar,fptr);
+
             }
         }
 
@@ -93,6 +114,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
         // Add a new line to seperated things
         else if (testChar == delim || testChar == '\n')
         {
+            
             fprintf(Ofile, "\n");
             while ((testChar = getc(fptr)) == delim || testChar == '\n')
             {
@@ -105,7 +127,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
 
         else // If it is not a comment
         {
-
+            
             int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
             if (Digtest == 1)                              // If it is a numeric print numeric.
             {
@@ -183,9 +205,9 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
             {
                 isKeyword = strcmp(word, Keywords[i]); // Compare the new string with every string in the Keywords
 
-                if (isKeyword == 0)
+                if (isKeyword == 0) // Checking to see if it
                 {
-                    isKeyword = strcmp(word, "in");
+                    isKeyword = strcmp(word, "in"); // Checking to see if stars with in first becuase there are multiple keywords that start with in
                     if (isKeyword == 0)
                     {
 
@@ -216,24 +238,33 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
                             break;
                         }
                     }
-                    else
+                    else //
                     {
-
-                        fprintf(Zfptr, " (keyword)");
-                        keyValue = 1;
-                        if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
+                        // Check to see if the word ends and there are not more letters after it .
+                        Ktest = fgetc(Ofptr);
+                        if (!isalnum(Ktest) && Ktest != '_')
                         {
-                            strcpy(word, "");
-
-                            fprintf(Zfptr, "\n");
                             ungetc(Ktest, Ofptr);
-                            break;
+                            fprintf(Zfptr, " (keyword)");
+                            keyValue = 1;
+                            if ((Ktest = fgetc(Ofptr)) != '\n') // If the keyword is not a
+                            {
+                                strcpy(word, "");
+
+                                fprintf(Zfptr, "\n");
+                                ungetc(Ktest, Ofptr);
+                                break;
+                            }
+                            else
+                            {
+                                strcpy(word, "");
+                                ungetc(Ktest, Ofptr);
+                                break;
+                            }
                         }
                         else
                         {
-                            strcpy(word, "");
                             ungetc(Ktest, Ofptr);
-                            break;
                         }
                     }
                 }
@@ -241,7 +272,8 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
             }
             if (keyValue == 0)
             {
-                if ((Ktest = fgetc(Ofptr)) < 97 || Ktest > 122)
+                Ktest = fgetc(Ofptr);
+                if ((!isalpha(Ktest)))
                 {
                     if (Ktest == '_' || isdigit(Ktest))
                     {
@@ -315,7 +347,7 @@ void lexitOp(const char *Ofile, char *EndFile)
         }
         skipString(Ofptr, Ktest, Pfptr);
         skipStringLit(Ofptr, Ktest, Pfptr);
-      skipAnser(Ofptr, Ktest, Pfptr);
+        skipAnser(Ofptr, Ktest, Pfptr);
 
         //      if (Comfirm == 1)
         //    {
@@ -406,7 +438,7 @@ void lexitOp(const char *Ofile, char *EndFile)
                     }
                     else
                     {
-                        ;
+                        fprintf(Pfptr, " (operator)");
                     }
                 }
 
@@ -491,8 +523,7 @@ bool skipComment(FILE *Sptr, char testChar, FILE *Optr)
         }
         else
         {
-            fprintf(Optr, "%c", testChar); //
-
+             //
             ungetc(testChar, Sptr);
             return false;
         }

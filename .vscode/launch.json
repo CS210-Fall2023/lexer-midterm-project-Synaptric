@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["files/widget.ccx"],
+            "args": ["files/trie.cci"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
