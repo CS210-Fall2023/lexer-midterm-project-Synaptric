@@ -1,55 +1,225 @@
 module (keyword)
-complex_number (identifier)
-interface (keyword)
+widget (identifier)
+is (keyword)
 type (keyword)
-complex_number_type (identifier)
-;
-/*
-     * accessors
-     */ (comment)
-accessor (keyword)
-imaginary (identifier)
-(c (identifier)
+widget_type (identifier)
+is (keyword)
+struct (keyword)
+wdth (identifier)
 :
-complex_number_type (identifier)
-)
-return (keyword)
-float (identifier)
+widget_width_type (identifier)
 ;
-accessor (keyword)
-real (identifier)
-(c (identifier)
+hght (identifier)
 :
-complex_number_type (identifier)
-)
-return (keyword)
-float (identifier)
-;
-/*
-     * operations
-     */ (comment)
-function (keyword)
-"-" (string)
-(c1 (identifier)
-,
-c2 (identifier)
-:
-complex_number_type (identifier)
-)
-return (keyword)
-complex_number_type (identifier)
-;
-function (keyword)
-"+" (string)
-(c1 (identifier)
-,
-c2 (identifier)
-:
-complex_number_type (identifier)
-)
-return (keyword)
-complex_number_type (identifier)
+widget_height_type (identifier)
 ;
 end (keyword)
-complex_number (identifier)
+struct (keyword)
+;
+function (keyword)
+width (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_width_type (identifier)
+is (keyword)
+begin (keyword)
+if (keyword)
+(w (identifier)
+.wdth (identifier)
+<
+16#40# (numeric literal)
+)
+then (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+5 (numeric literal)
+;
+end (keyword)
+if (keyword)
+;
+if (keyword)
+(w (identifier)
+.wdth (identifier)
+<
+128 (numeric literal)
+)
+then (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+5 (numeric literal)
+;
+elsif (keyword)
+(w (identifier)
+.wdth (identifier)
+<
+256 (numeric literal)
+)
+then (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+133 (numeric literal)
+;
+else (keyword)
+return (keyword)
+w (identifier)
+.wdth (identifier)
+-
+259 (numeric literal)
+;
+end (keyword)
+if (keyword)
+;
+end (keyword)
+widget (identifier)
+;
+function (keyword)
+height (identifier)
+(w (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_height_type (identifier)
+is (keyword)
+begin (keyword)
+while (keyword)
+(w (identifier)
+.hght (identifier)
+<
+100 (numeric literal)
+)
+loop (keyword)
+w (identifier)
+.hght (identifier)
+:=
+w (identifier)
+.hght (identifier)
++
+1 (numeric literal)
+;
+end (keyword)
+loop (keyword)
+;
+return (keyword)
+width (identifier)
+(X (identifier)
+);
+return (keyword)
+X (identifier)
+;
+end (keyword)
+height (identifier)
+;
+function (keyword)
+merge (identifier)
+(lhs (identifier)
+:
+widget_type (identifier)
+;
+rhs (identifier)
+:
+widget_type (identifier)
+)
+return (keyword)
+widget_type (identifier)
+is (keyword)
+x (identifier)
+:
+integer (keyword)
+;
+y (identifier)
+:
+integer (keyword)
+;
+begin (keyword)
+loop (keyword)
+x (identifier)
+:=
+x (identifier)
++
+3 (numeric literal)
+;
+if (keyword)
+(x (identifier)
+>
+17 (numeric literal)
+)
+then (keyword)
+exit (keyword)
+;
+end (keyword)
+if (keyword)
+;
+x (identifier)
+:=
+y (identifier)
+[3 (numeric literal)
+];
+/* array indexing */ (comment)
+y (identifier)
+:=
+x (identifier)
++
+2 (numeric literal)
+;
+exit (keyword)
+when (keyword)
+(y (identifier)
+>
+37 (numeric literal)
+);
+end (keyword)
+loop (keyword)
+;
+while (keyword)
+(lhs (identifier)
+.wdth (identifier)
+!=
+0 (numeric literal)
+)
+loop (keyword)
+case (keyword)
+letter (identifier)
+is (keyword)
+when (keyword)
+'x' (character literal)
+=>
+y (identifier)
+:=
+23 (numeric literal)
+;
+when (keyword)
+'q' (character literal)
+=>
+y (identifier)
+:=
+91 (numeric literal)
+;
+when (keyword)
+others (identifier)
+=>
+y (identifier)
+:=
+-1 (numeric literal)
+;
+end (keyword)
+case (keyword)
+;
+end (keyword)
+loop (keyword)
+;
+end (keyword)
+merge (identifier)
+;
+end (keyword)
+widget (identifier)
 ;

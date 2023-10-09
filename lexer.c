@@ -5,7 +5,16 @@
 #include <string.h>
 #include <ctype.h>
 
-void getcomments(const char *file) // This functions  splits the  function into lines of a file, It also speperates
+
+
+/*
+    Creates testfile.txt 
+
+    It takes the original file and will find the (comments), charchter literals,numerics,and string in the file.
+
+*/
+
+void startLexer(const char *file) // This functions  splits the  function into lines of a file, It also speperates
 {
 
     FILE *fptr;
@@ -158,7 +167,7 @@ void getcomments(const char *file) // This functions  splits the  function into 
                         ;
                     }
 
-                    int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric
+                    int Digtest = lexitDig(fptr, testChar, Ofile); // test to see if it is a numeric 
                     if (Digtest == 1)                              // If it is a numeric print numeric.
                     {
                         fprintf(Ofile, " (numeric literal)");
@@ -244,11 +253,14 @@ void getcomments(const char *file) // This functions  splits the  function into 
 }
 
 /*
-    Function created to try and find the keywords in the text
+    Function created to try and find the keywords and opcodes in a file
+
+    takes testfile and returns testfile2 with keywords and opcodes
 
 
 
 */
+
 
 void lexitKey(const char *Ofile) // accepts the file being worked on
 {
@@ -414,6 +426,15 @@ void lexitKey(const char *Ofile) // accepts the file being worked on
     fclose(Zfptr);
 }
 
+
+/*
+
+    Finds the opcodes in the writing  and makes the final file for the program
+
+    Inputs testfile2 and ends with the .lexer file
+
+*/
+
 void lexitOp(const char *Ofile, char *EndFile)
 {
     FILE *Ofptr = fopen(Ofile, "r");
@@ -452,11 +473,13 @@ void lexitOp(const char *Ofile, char *EndFile)
 
         for (int i = 0; i < 25; i++)
         {
+
+            // Section of opcodes that  in order to print things.
             if (Ktest == *Opcodes[i])
             {
                 if (Ktest == '<')
                 {
-                    if ((Ktest = fgetc(Ofptr)) == '<')
+                    if ((Ktest = fgetc(Ofptr)) == '<') // I am reading one charhcter at a time so I after to try to finsh this
                     {
                         fprintf(Pfptr, "%c", Ktest);
 
@@ -593,7 +616,13 @@ void lexitOp(const char *Ofile, char *EndFile)
             }
         }
     }
+
+
 }
+
+/*
+    Skips the commments in a program. 
+*/
 
 bool skipComment(FILE *Sptr, char testChar, FILE *Optr)
 {
@@ -630,6 +659,14 @@ bool skipComment(FILE *Sptr, char testChar, FILE *Optr)
     }
 }
 
+
+/*
+    THis finds numeric charchters and returns a value to let it know if it is a real number . or an opcode. 
+
+
+
+*/
+
 int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
 {
     if (isdigit(Digchar))
@@ -665,7 +702,13 @@ int lexitDig(FILE *Iptr, char Digchar, FILE *Optr)
         return 0;
     }
 }
+/*
 
+    skipString 
+
+    This function will skip the strings in the files so that I don't reprint anything 
+
+*/
 void skipString(FILE *Sptr, char testChar, FILE *Optr) // Used to try and skip strings when checking for things
 {
     if (testChar == '"') // statement used to sperate strings
@@ -684,6 +727,13 @@ void skipString(FILE *Sptr, char testChar, FILE *Optr) // Used to try and skip s
     }
 }
 
+
+/*
+    skips charchter literals 
+    
+    this way it doesn't identify identifers or opcodes in the next part of the programs. 
+
+*/
 void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
 {
     if (testChar == '\'') // statement used to sperate strings
@@ -703,7 +753,8 @@ void skipStringLit(FILE *Sptr, char testChar, FILE *Optr)
 }
 
 /*
-
+    Skips the   things like (identifer)  (operator)
+        This is so that it can skip these to make sure that it works. 
 
 */
 

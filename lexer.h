@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-void getcomments(const char *file);
+void startLexer(const char *file);
 
 void lexitKey(const char *Ofile);
 void getComment(int testChar, FILE *fptr, const char *Ofile);

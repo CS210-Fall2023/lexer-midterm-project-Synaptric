@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     char *File = calloc(strlen(argv[1]), sizeof(char));
 
-    char *EndFile = calloc(strlen(argv[1])+8, sizeof(char));
+    char *EndFile = calloc(strlen(argv[1])+8, sizeof(char)); //Allocating space for the file brought in and the file brought out 
 
     strcpy(File, argv[1]);
 
@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     strcat(EndFile, ".lexer");
 
     const char *accssesMode;
-    int mystring;
 
     // File = "files/hello_world.ccx"; //Test file for the program
     accssesMode = "r";
@@ -43,16 +42,9 @@ int main(int argc, char *argv[])
         printf("file can't be opened \n");
     }
 
-
-    while ((mystring = fgetc(fptr)) != EOF)
-    {
-
-        printf("%c", mystring);
-    }
-
     fclose(fptr);
 
-    getcomments(File);
+    startLexer(File);
 
     // const char *Ofile ="Testfile.txt";
     lexitKey("Testfile.txt");
@@ -76,7 +68,6 @@ int main(int argc, char *argv[])
     Then it will create the final file  that highlets operators
 
 
-    the primary issue that I have right now is needing to skip over the  statemtns without rewriting thme
 
 
     I need to fix this method so that it doesn't skip things in parnetheses or make a method to avoid writing things in the panrethes.s

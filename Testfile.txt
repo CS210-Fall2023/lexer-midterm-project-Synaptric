@@ -1,37 +1,178 @@
 module
-complex_number
-interface
+widget
+is
 type
-complex_number_type;
-/*
-     * accessors
-     */ (comment)
-accessor
-imaginary(c:
-complex_number_type)
-return
-float;
-accessor
-real(c:
-complex_number_type)
-return
-float;
-/*
-     * operations
-     */ (comment)
-function
-"-" (string)
-(c1,
-c2:
-complex_number_type)
-return
-complex_number_type;
-function
-"+" (string)
-(c1,
-c2:
-complex_number_type)
-return
-complex_number_type;
+widget_type
+is
+struct
+wdth:
+widget_width_type;
+hght:
+widget_height_type;
 end
-complex_number;
+struct;
+function
+width(w:
+widget_type)
+return
+widget_width_type
+is
+begin
+if
+(w.wdth
+<
+16#40# (numeric literal)
+)
+then
+return
+w.wdth
+-
+5 (numeric literal)
+;
+end
+if;
+if
+(w.wdth
+<
+128 (numeric literal)
+)
+then
+return
+w.wdth
+-
+5 (numeric literal)
+;
+elsif
+(w.wdth
+<
+256 (numeric literal)
+)
+then
+return
+w.wdth
+-
+133 (numeric literal)
+;
+else
+return
+w.wdth
+-
+259 (numeric literal)
+;
+end
+if;
+end
+widget;
+function
+height(w:
+widget_type)
+return
+widget_height_type
+is
+begin
+while
+(w.hght
+<
+100 (numeric literal)
+)
+loop
+w.hght
+:=
+w.hght
++
+1 (numeric literal)
+;
+end
+loop;
+return
+width(X);
+return
+X;
+end
+height;
+function
+merge(lhs:
+widget_type;
+rhs:
+widget_type)
+return
+widget_type
+is
+x:
+integer;
+y:
+integer;
+begin
+loop
+x
+:=
+x
++
+3 (numeric literal)
+;
+if
+(x
+>
+17 (numeric literal)
+)
+then
+exit;
+end
+if;
+x
+:=
+y[3 (numeric literal)
+];
+/* array indexing */ (comment)
+y
+:=
+x
++
+2 (numeric literal)
+;
+exit
+when
+(y
+>
+37 (numeric literal)
+);
+end
+loop;
+while
+(lhs.wdth
+!=
+0 (numeric literal)
+)
+loop
+case
+letter
+is
+when
+'x' (character literal)
+=>
+y
+:=
+23 (numeric literal)
+;
+when
+'q' (character literal)
+=>
+y
+:=
+91 (numeric literal)
+;
+when
+others
+=>
+y
+:=
+-1 (numeric literal)
+;
+end
+case;
+end
+loop;
+end
+merge;
+end
+widget;
