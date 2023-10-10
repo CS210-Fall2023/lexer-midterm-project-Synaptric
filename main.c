@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
         printf("\nNo Extra Command Line Argument Passed "
                "Other Than Program Name");
 
+
+/*
     if (argc >= 2)
     {
         printf("\nNumber Of Arguments Passed: %d", argc);
@@ -18,6 +20,8 @@ int main(int argc, char *argv[])
         for (int i = 0; i < argc; i++)
             printf("\nargv[%d]: %s", i, argv[i]);
     }
+
+*/
 
     char *File = calloc(strlen(argv[1]), sizeof(char));
 
